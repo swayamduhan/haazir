@@ -2,7 +2,9 @@ import { Context } from 'fabric-contract-api';
 import { SessionManager } from '../src/contracts/session-manager';
 import { IdentityRegistry } from '../src/contracts/identity-registry';
 import { makeContext, nextTx } from './helpers/mock-context';
-import { commitSeed, sha256Hex, Session, VerificationState } from '@haazir/shared';
+import {
+  commitSeed, deriveNonce, sha256Hex, Session, VerificationState,
+} from '@haazir/shared';
 
 const SEED = 'ab'.repeat(32);
 const SEED_HASH = commitSeed(SEED);
@@ -150,5 +152,121 @@ describe('getSession', () => {
     const s = await read(nextTx(after, { timestampMs: START_MS + 9_000_000 }));
     expect(s.status).toBe('open');
     expect(s.verificationState).toBe('unverified');
+  });
+});
+
+describe('closeSession — commit-reveal', () => {
+  const setup = async () => {
+    const { ctx, facultyID } = await withFaculty();
+    return createDefaultSession(ctx, facultyID);
+  };
+
+  it('accepts the seed whose hash was committed at creation', async () => {
+    const after = await setup();
+    const closing = nextTx(after, { txId: 'tx-close', timestampMs: START_MS + 3_600_000 });
+    await sm().closeSession(closing, 'S1', SEED);
+    const s = await read(nextTx(closing));
+    expect(s.status).toBe('closed');
+    expect(s.revealedSeed).toBe(SEED);
+    expect(s.verificationState).toBe('verified');
+  });
+
+  it('rejects any other seed, blocking a retrofitted commitment', async () => {
+    const after = await setup();
+    await expect(
+      sm().closeSession(nextTx(after, { timestampMs: START_MS + 3_600_000 }),
+        'S1', 'cd'.repeat(32)),
+    ).rejects.toThrow(/SEED_COMMITMENT_MISMATCH/);
+  });
+
+  it('leaves the session open when the reveal is rejected', async () => {
+    const after = await setup();
+    const bad = nextTx(after, { timestampMs: START_MS + 3_600_000 });
+    await expect(sm().closeSession(bad, 'S1', 'cd'.repeat(32))).rejects.toThrow();
+    expect((await read(nextTx(bad))).status).toBe('open');
+  });
+
+  it('records who closed it and when, from the ledger', async () => {
+    const after = await setup();
+    const closing = nextTx(after, {
+      txId: 'tx-close', timestampMs: START_MS + 3_600_000, clientId: 'x509::CN=faculty-a',
+    });
+    await sm().closeSession(closing, 'S1', SEED);
+    const s = await read(nextTx(closing));
+    expect(s.closedBy).toBe('x509::CN=faculty-a');
+    expect(s.closedAt).toBe('2026-09-09T11:00:00.000Z');
+  });
+
+  it('rejects a reveal after the grace period has elapsed', async () => {
+    const after = await setup();
+    await expect(
+      sm().closeSession(nextTx(after, { timestampMs: START_MS + 9_000_000 }), 'S1', SEED),
+    ).rejects.toThrow(/GRACE_PERIOD_ELAPSED/);
+  });
+
+  it('rejects closing a session twice', async () => {
+    const after = await setup();
+    const closing = nextTx(after, { timestampMs: START_MS + 3_600_000 });
+    await sm().closeSession(closing, 'S1', SEED);
+    await expect(
+      sm().closeSession(nextTx(closing, { timestampMs: START_MS + 3_610_000 }), 'S1', SEED),
+    ).rejects.toThrow(/SESSION_NOT_OPEN/);
+  });
+
+  it('rejects a caller from a non-endorsing organisation', async () => {
+    const after = await setup();
+    await expect(
+      sm().closeSession(
+        nextTx(after, { timestampMs: START_MS + 3_600_000, mspId: 'AuditMSP' }), 'S1', SEED),
+    ).rejects.toThrow(/UNAUTHORISED_ORG/);
+  });
+
+  it('rejects a malformed seed', async () => {
+    const after = await setup();
+    await expect(
+      sm().closeSession(nextTx(after, { timestampMs: START_MS + 3_600_000 }), 'S1', 'nothex'),
+    ).rejects.toThrow(/INVALID_SEED/);
+  });
+
+  it('makes every window independently verifiable once revealed', async () => {
+    const after = await setup();
+    const closing = nextTx(after, { timestampMs: START_MS + 3_600_000 });
+    await sm().closeSession(closing, 'S1', SEED);
+    const s = await read(nextTx(closing));
+    // Anyone holding only the ledger can now recompute any window's nonce.
+    expect(deriveNonce(s.revealedSeed!, 7)).toBe(deriveNonce(SEED, 7));
+  });
+});
+
+describe('expireSession', () => {
+  const setup = async () => {
+    const { ctx, facultyID } = await withFaculty();
+    return createDefaultSession(ctx, facultyID);
+  };
+
+  it('rejects expiry before the grace period has elapsed', async () => {
+    const after = await setup();
+    await expect(
+      sm().expireSession(nextTx(after, { timestampMs: START_MS + 3_600_000 }), 'S1'),
+    ).rejects.toThrow(/GRACE_PERIOD_NOT_ELAPSED/);
+  });
+
+  it('marks the session expired once the grace period has passed', async () => {
+    const after = await setup();
+    const exp = nextTx(after, { txId: 'tx-exp', timestampMs: START_MS + 9_000_000 });
+    await sm().expireSession(exp, 'S1');
+    const s = await read(nextTx(exp, { timestampMs: START_MS + 9_100_000 }));
+    expect(s.status).toBe('expired');
+    expect(s.verificationState).toBe('unverified');
+    expect(s.expiredBy).toBeDefined();
+  });
+
+  it('rejects expiring a closed session', async () => {
+    const after = await setup();
+    const closing = nextTx(after, { timestampMs: START_MS + 3_600_000 });
+    await sm().closeSession(closing, 'S1', SEED);
+    await expect(
+      sm().expireSession(nextTx(closing, { timestampMs: START_MS + 9_000_000 }), 'S1'),
+    ).rejects.toThrow(/SESSION_NOT_OPEN/);
   });
 });
