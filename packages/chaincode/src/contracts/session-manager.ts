@@ -1,7 +1,7 @@
 import { Context, Contract, Info, Returns, Transaction } from 'fabric-contract-api';
 import {
-  canonicalize, GeoPoint, Identity, isSha256Hex, MAX_SESSION_DURATION_SEC,
-  Session, toE7, VerificationState,
+  canonicalize, commitSeed, GeoPoint, Identity, isSha256Hex,
+  MAX_SESSION_DURATION_SEC, Session, toE7, VerificationState,
 } from '@haazir/shared';
 import { fail } from '../lib/errors';
 import { exists, identityKey, readJson, sessionKey } from '../lib/keys';
@@ -116,6 +116,89 @@ export class SessionManager extends Contract {
       ...session,
       verificationState: verificationStateOf(session, txTimestampMs(ctx)),
     });
+  }
+
+  /**
+   * Closes a session by revealing the nonce seed.
+   *
+   * The hash comparison is the load-bearing check: presenting a seed other
+   * than the one committed at creation is an attempt to retrofit nonces
+   * after seeing submissions, and must be rejected. Once revealed, anyone
+   * holding only the ledger can recompute every window's nonce and verify
+   * any record without trusting a server. Spec sections 5.2 and 5.3.
+   *
+   * Caller authorisation is organisation-level for this milestone: binding
+   * on-chain identity ids to X.509 client identities is unspecified and
+   * deferred to Milestone 3. See ADR-013.
+   */
+  @Transaction()
+  @Returns('string')
+  public async closeSession(
+    ctx: Context,
+    sessionID: string,
+    revealedSeed: string,
+  ): Promise<string> {
+    this.assertEndorsingOrg(ctx);
+
+    const session = await this.load(ctx, sessionID);
+    if (session.status !== 'open') {
+      fail('SESSION_NOT_OPEN', `session "${sessionID}" is ${session.status}`);
+    }
+
+    let commitment: string;
+    try {
+      commitment = commitSeed(revealedSeed);
+    } catch {
+      fail('INVALID_SEED', 'revealedSeed must be 32-byte hex (64 lowercase hex characters)');
+    }
+    if (commitment !== session.nonceSeedHash) {
+      fail('SEED_COMMITMENT_MISMATCH',
+        'the revealed seed does not match the commitment made at session creation');
+    }
+
+    const nowMs = txTimestampMs(ctx);
+    if (nowMs > deadlineOf(session)) {
+      fail('GRACE_PERIOD_ELAPSED', `the reveal window for session "${sessionID}" has closed`);
+    }
+
+    session.revealedSeed = revealedSeed;
+    session.status = 'closed';
+    session.closedAt = txTimestampIso(ctx);
+    session.closedBy = ctx.clientIdentity.getID();
+
+    await ctx.stub.putState(sessionKey(ctx, sessionID), Buffer.from(canonicalize(session)));
+    return canonicalize(session);
+  }
+
+  /**
+   * Marks a session expired after its grace period elapsed with no valid
+   * reveal, converting a silent forgery risk into an attributable failure.
+   *
+   * No caller restriction beyond the grace-period check is imposed. Ideally
+   * the Audit organisation would invoke this alone, since it is the sanction
+   * against the two interested parties; that requires per-function
+   * endorsement and is deferred to Milestone 3. Spec section 5.4.
+   */
+  @Transaction()
+  @Returns('string')
+  public async expireSession(ctx: Context, sessionID: string): Promise<string> {
+    const session = await this.load(ctx, sessionID);
+    if (session.status !== 'open') {
+      fail('SESSION_NOT_OPEN', `session "${sessionID}" is ${session.status}`);
+    }
+
+    const nowMs = txTimestampMs(ctx);
+    if (nowMs <= deadlineOf(session)) {
+      fail('GRACE_PERIOD_NOT_ELAPSED',
+        `session "${sessionID}" may still be closed by revealing its seed`);
+    }
+
+    session.status = 'expired';
+    session.expiredAt = txTimestampIso(ctx);
+    session.expiredBy = ctx.clientIdentity.getID();
+
+    await ctx.stub.putState(sessionKey(ctx, sessionID), Buffer.from(canonicalize(session)));
+    return canonicalize(session);
   }
 
   protected async load(ctx: Context, sessionID: string): Promise<Session> {
