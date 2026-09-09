@@ -1,0 +1,16 @@
+{
+  "name": "@haazir/chaincode",
+  "version": "0.1.0",
+  "description": "IdentityRegistry and SessionManager contracts, one deployable Fabric package",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "start": "fabric-chaincode-node start"
+  },
+  "dependencies": {
+    "@haazir/shared": "0.1.0",
+    "fabric-contract-api": "^2.5.4",
+    "fabric-shim": "^2.5.4"
+  }
+}

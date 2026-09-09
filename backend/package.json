@@ -1,0 +1,15 @@
+{
+  "name": "@haazir/backend",
+  "version": "0.1.0",
+  "description": "fabric-gateway connection module and CLI demo",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "demo": "node dist/cli/demo.js"
+  },
+  "dependencies": {
+    "@grpc/grpc-js": "^1.10.9",
+    "@haazir/shared": "0.1.0",
+    "@hyperledger/fabric-gateway": "^1.5.1"
+  }
+}

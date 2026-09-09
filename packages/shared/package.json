@@ -1,0 +1,12 @@
+{
+  "name": "@haazir/shared",
+  "version": "0.1.0",
+  "description": "Canonical encoding, hashing, and nonce derivation shared by chaincode, backend, and mobile",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  }
+}
