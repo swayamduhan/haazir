@@ -1,0 +1,25 @@
+node_modules/
+dist/
+build/
+*.tsbuildinfo
+
+# Fabric generated crypto material and channel artifacts — never commit
+network/organizations/
+network/channel-artifacts/
+network/system-genesis-block/
+*.block
+*.tx
+wallet/
+
+# Local secrets and demo scaffolding
+.env
+.env.*
+!.env.example
+*.seed
+demo-salts.json
+
+# Logs and OS noise
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
