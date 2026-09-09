@@ -14,6 +14,11 @@ if [[ ! -d "$TEST_NETWORK" ]]; then
   exit 1
 fi
 
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+echo "==> Applying MSP rename (idempotent)"
+"$HERE/apply-msp-rename.sh"
+
 echo "==> Tearing down any existing network"
 ( cd "$TEST_NETWORK" && ./network.sh down )
 
