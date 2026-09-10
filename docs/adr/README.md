@@ -25,3 +25,5 @@ reconstructed under questioning.
 | [016](ADR-016-deferred-nonce-verification.md) | Nonces recorded at marking, verified at close | Follows ADR-007 |
 | [017](ADR-017-device-signature-verification.md) | Device signature verified inside the contract | Spec §7.1 |
 | [018](ADR-018-integer-geodistance.md) | Geofence distance computed in integers | Discovered in build |
+| [019](ADR-019-eligibility-computed-on-chain.md) | Eligibility computed on chain, in integer basis points | HANDOFF §4 |
+| [020](ADR-020-exemptions-anchored-by-cid.md) | Exemption evidence anchored by CID, effect named on the record | HANDOFF §4 |

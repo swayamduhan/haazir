@@ -1,6 +1,7 @@
 export * from './canonical';
 export * from './config';
 export * from './device-keys';
+export * from './evidence';
 export * from './geo';
 export * from './hashing';
 export * from './nonce';

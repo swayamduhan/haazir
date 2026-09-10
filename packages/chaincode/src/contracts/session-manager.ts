@@ -1,11 +1,11 @@
 import { Context, Contract, Info, Returns, Transaction } from 'fabric-contract-api';
 import {
-  canonicalize, commitSeed, GeoPoint, Identity, isSha256Hex,
+  canonicalize, commitSeed, CourseSessionIndex, GeoPoint, Identity, isSha256Hex,
   MAX_SESSION_DURATION_SEC, Session, toE7, VerificationState,
 } from '@haazir/shared';
 import { assertEndorsingOrg } from '../lib/authorisation';
 import { fail } from '../lib/errors';
-import { exists, identityKey, readJson, sessionKey } from '../lib/keys';
+import { courseSessionKey, exists, identityKey, readJson, sessionKey } from '../lib/keys';
 import { txTimestampIso, txTimestampMs } from '../lib/ledger-time';
 import { sweepSessionNonces } from '../lib/nonce-sweep';
 
@@ -95,7 +95,16 @@ export class SessionManager extends Contract {
       status: 'open',
     };
 
+    // Indexed by course so eligibility can enumerate a timetable rather than
+    // scan every session on the ledger. Only immutable fields are copied.
+    const index: CourseSessionIndex = {
+      courseID, sessionID, startTime: session.startTime,
+    };
+
     await ctx.stub.putState(key, Buffer.from(canonicalize(session)));
+    await ctx.stub.putState(
+      courseSessionKey(ctx, courseID, sessionID), Buffer.from(canonicalize(index)),
+    );
     return canonicalize(session);
   }
 

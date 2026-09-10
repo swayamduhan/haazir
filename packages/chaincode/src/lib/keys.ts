@@ -96,3 +96,25 @@ export async function collectJson<T>(
   }
   return results;
 }
+
+export const COURSE_SESSION = 'courseSession';
+export const EXEMPTION = 'exemption';
+
+/**
+ * One course's sessions, enumerable by range query.
+ *
+ * Without it, counting a course's sessions would mean scanning every session
+ * on the ledger and filtering — unbounded, and growing for the life of the
+ * institution. With it the scan is bounded by one course's timetable.
+ */
+export const courseSessionKey = (
+  ctx: Context, courseID: string, sessionID: string,
+): string => ctx.stub.createCompositeKey(COURSE_SESSION, [courseID, sessionID]);
+
+/**
+ * Ordered course, student, session so that one student's exemptions for one
+ * course come back in a single range query rather than a read per session.
+ */
+export const exemptionKey = (
+  ctx: Context, courseID: string, studentID: string, sessionID: string,
+): string => ctx.stub.createCompositeKey(EXEMPTION, [courseID, studentID, sessionID]);

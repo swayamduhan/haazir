@@ -3,8 +3,10 @@ import {
   commitSeed, deriveNonce, DeviceKeyPair, generateDeviceKeyPair, GeoPoint,
   sha256Hex, signAttendance, toE7, windowFor,
 } from '@haazir/shared';
+
 import { AttendanceRecorder } from '../../src/contracts/attendance-recorder';
 import { CourseRoster } from '../../src/contracts/course-roster';
+import { PolicyEngine } from '../../src/contracts/policy-engine';
 import { IdentityRegistry } from '../../src/contracts/identity-registry';
 import { SessionManager } from '../../src/contracts/session-manager';
 import { makeContext, nextTx } from './mock-context';
@@ -31,6 +33,7 @@ export const registry = () => new IdentityRegistry();
 export const sessions = () => new SessionManager();
 export const roster = () => new CourseRoster();
 export const recorder = () => new AttendanceRecorder();
+export const policy = () => new PolicyEngine();
 
 export interface Fixture {
   ctx: Context;
@@ -92,6 +95,10 @@ export interface MarkOptions {
   claimedWindow?: number;
   /** Overrides the nonce the device claims, leaving the signature consistent. */
   claimedNonce?: string;
+  /** The seed backing this session's nonces. Defaults to the fixture's. */
+  seed?: string;
+  /** The session's scheduled start, which anchors the window epoch. */
+  sessionStartMs?: number;
   /** Signs with this key instead of the student's registered one. */
   signWith?: DeviceKeyPair;
   /** Replaces the signature after it is produced. */
@@ -115,11 +122,13 @@ export async function mark(
     courseID = COURSE,
     location = northOf(20),
     livenessHash = LIVENESS,
+    seed = SEED,
+    sessionStartMs = START_MS,
     signWith = device,
   } = options;
 
-  const window = options.claimedWindow ?? windowFor(atMs, START_MS);
-  const claimedNonce = options.claimedNonce ?? deriveNonce(SEED, window);
+  const window = options.claimedWindow ?? windowFor(atMs, sessionStartMs);
+  const claimedNonce = options.claimedNonce ?? deriveNonce(seed, window);
 
   const signature = options.signature ?? signAttendance(signWith.privateKey, {
     sessionID,
@@ -138,4 +147,63 @@ export async function mark(
     location.latE7, location.lngE7, livenessHash, signature,
   );
   return { ctx, result };
+}
+
+/** Each session gets its own seed, derived from its id so tests stay readable. */
+export const seedFor = (sessionID: string): string => sha256Hex(`seed-${sessionID}`);
+
+export interface Attendee {
+  studentID: string;
+  device: DeviceKeyPair;
+  /** Claims a nonce the seed will not produce, to be caught by the sweep. */
+  forge?: boolean;
+}
+
+export interface SessionRun {
+  id: string;
+  startMs: number;
+  attend?: Attendee[];
+  /** How the session ends. `open` leaves it running. */
+  conclude?: 'close' | 'expire' | 'open';
+}
+
+/**
+ * Opens a course session, marks the given students, and concludes it — one
+ * class meeting, as eligibility arithmetic sees it.
+ */
+export async function runSession(
+  base: Context,
+  facultyID: string,
+  run: SessionRun,
+): Promise<Context> {
+  const { id, startMs, attend = [], conclude = 'close' } = run;
+  const seed = seedFor(id);
+
+  let ctx = nextTx(base, { txId: `tx-open-${id}`, timestampMs: startMs });
+  await sessions().createSession(
+    ctx, id, COURSE, facultyID, 'LH-3', new Date(startMs).toISOString(),
+    3600, 900, GEOFENCE_JSON, RADIUS_M, commitSeed(seed),
+  );
+
+  const atMs = startMs + 70_000;
+  for (const a of attend) {
+    ({ ctx } = await mark(ctx, a.studentID, a.device, {
+      txId: `tx-mark-${id}-${a.studentID}`,
+      atMs,
+      sessionID: id,
+      seed,
+      sessionStartMs: startMs,
+      claimedNonce: a.forge ? 'de'.repeat(32) : undefined,
+    }));
+  }
+
+  if (conclude === 'close') {
+    ctx = nextTx(ctx, { txId: `tx-close-${id}`, timestampMs: startMs + 600_000 });
+    await sessions().closeSession(ctx, id, seed);
+  } else if (conclude === 'expire') {
+    ctx = nextTx(ctx, { txId: `tx-expire-${id}`, timestampMs: startMs + 5_000_000 });
+    await sessions().expireSession(ctx, id);
+  }
+
+  return ctx;
 }

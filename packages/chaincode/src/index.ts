@@ -1,9 +1,10 @@
 import { AttendanceRecorder } from './contracts/attendance-recorder';
 import { CourseRoster } from './contracts/course-roster';
 import { IdentityRegistry } from './contracts/identity-registry';
+import { PolicyEngine } from './contracts/policy-engine';
 import { SessionManager } from './contracts/session-manager';
 
-export { AttendanceRecorder, CourseRoster, IdentityRegistry, SessionManager };
+export { AttendanceRecorder, CourseRoster, IdentityRegistry, PolicyEngine, SessionManager };
 
 /**
  * Fabric reads this export to discover the contracts in the package.
@@ -14,5 +15,5 @@ export { AttendanceRecorder, CourseRoster, IdentityRegistry, SessionManager };
  * across three organisations. Spec section 4.4, ADR-011.
  */
 export const contracts: unknown[] = [
-  IdentityRegistry, SessionManager, CourseRoster, AttendanceRecorder,
+  IdentityRegistry, SessionManager, CourseRoster, AttendanceRecorder, PolicyEngine,
 ];

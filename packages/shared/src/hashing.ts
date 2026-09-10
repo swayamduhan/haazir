@@ -60,3 +60,8 @@ export function deriveEventId(txId: string): string {
 export function deriveRecordId(txId: string): string {
   return sha256Hex(`attendance|${txId}`).slice(0, 32);
 }
+
+/** Derives an exemption id from the transaction id, for the same reason. */
+export function deriveExemptionId(txId: string): string {
+  return sha256Hex(`exemption|${txId}`).slice(0, 32);
+}

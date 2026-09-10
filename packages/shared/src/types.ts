@@ -194,3 +194,89 @@ export interface NonceAudit extends NonceAuditSummary {
   checkedAt: string;
   verdicts: NonceVerdict[];
 }
+
+export type ExemptionKind = 'medical' | 'official_duty' | 'institutional';
+
+/**
+ * What an exemption does to the arithmetic.
+ *
+ * Institutions differ, and leaving it implicit would bury a policy decision
+ * inside a contract. On-duty attendance usually counts as present; medical
+ * leave usually removes the session from the denominator instead. The exam
+ * cell chooses per exemption, and the choice is on the record.
+ */
+export type ExemptionEffect = 'counts_present' | 'excluded';
+
+export type ExemptionStatus = 'active' | 'revoked';
+
+export interface ExemptionRecord {
+  exemptionID: string;
+  courseID: string;
+  studentID: string;
+  sessionID: string;
+  kind: ExemptionKind;
+  effect: ExemptionEffect;
+  /** IPFS content identifier. The document itself never reaches the ledger. */
+  evidenceCID: string;
+  reason: string;
+  status: ExemptionStatus;
+  grantedBy: string;
+  grantedAt: string;
+  revokedBy?: string;
+  revokedAt?: string;
+}
+
+/**
+ * Eligibility as computed from the ledger alone, with every input to the
+ * verdict itemised.
+ *
+ * A bare percentage invites the dispute this system exists to settle. Each
+ * field says where a session went, so a student contesting the number can see
+ * which sessions counted, which were excused, and which credits were voided
+ * because the nonce did not survive the sweep. Spec section 6.6.
+ */
+export interface EligibilityReport {
+  courseID: string;
+  studentID: string;
+  /** Concluded sessions of this course held since the student enrolled. */
+  sessionsHeld: number;
+  /** The denominator: sessionsHeld less those an exemption excluded. */
+  sessionsCounted: number;
+  present: number;
+  /**
+   * The subset of `present` backed by a nonce the sweep recomputed and
+   * matched. The remainder rests on trust rather than proof: a faculty
+   * correction, or a session that expired before anyone revealed its seed.
+   *
+   * Reported rather than deducted. Refusing the credit would punish students
+   * for a faculty member's failure to close a session; granting it silently
+   * would let that failure launder unverifiable attendance. The contract
+   * computes what it can prove and says plainly what it cannot.
+   */
+  presentVerified: number;
+  exempted: number;
+  creditedByExemption: number;
+  /** Present records that lost their credit when the nonce sweep rejected them. */
+  rejectedForNonce: number;
+  /** Basis points: 7500 is 75.00%. Never a float. */
+  attendancePercentBp: number;
+  thresholdBp: number;
+  eligible: boolean;
+  computedAt: string;
+}
+
+/**
+ * Lets `computeEligibility` enumerate one course's sessions without scanning
+ * every session ever written.
+ *
+ * `startTime` is copied here deliberately: it is immutable after creation, so
+ * the copy cannot drift, and it lets sessions before a student's enrolment be
+ * skipped without reading them. Mutable fields are NOT copied — `status` is
+ * read from the session itself, so there is no second place for it to be
+ * wrong. Spec section 6.7.
+ */
+export interface CourseSessionIndex {
+  courseID: string;
+  sessionID: string;
+  startTime: string;
+}
