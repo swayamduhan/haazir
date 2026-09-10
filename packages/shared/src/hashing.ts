@@ -55,3 +55,8 @@ export function deriveIdentityId(txId: string): string {
 export function deriveEventId(txId: string): string {
   return sha256Hex(`revocation|${txId}`).slice(0, 32);
 }
+
+/** Derives an attendance record id from the transaction id, for the same reason. */
+export function deriveRecordId(txId: string): string {
+  return sha256Hex(`attendance|${txId}`).slice(0, 32);
+}

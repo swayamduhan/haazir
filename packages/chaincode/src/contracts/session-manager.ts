@@ -3,15 +3,11 @@ import {
   canonicalize, commitSeed, GeoPoint, Identity, isSha256Hex,
   MAX_SESSION_DURATION_SEC, Session, toE7, VerificationState,
 } from '@haazir/shared';
+import { assertEndorsingOrg } from '../lib/authorisation';
 import { fail } from '../lib/errors';
 import { exists, identityKey, readJson, sessionKey } from '../lib/keys';
 import { txTimestampIso, txTimestampMs } from '../lib/ledger-time';
-
-/**
- * Organizations permitted to write. Audit is deliberately absent: it commits
- * and reads, but endorses nothing. Spec section 3.
- */
-const ENDORSING_MSPS = ['RegistrarMSP', 'ExamCellMSP'];
+import { sweepSessionNonces } from '../lib/nonce-sweep';
 
 @Info({
   title: 'SessionManager',
@@ -138,7 +134,7 @@ export class SessionManager extends Contract {
     sessionID: string,
     revealedSeed: string,
   ): Promise<string> {
-    this.assertEndorsingOrg(ctx);
+    assertEndorsingOrg(ctx);
 
     const session = await this.load(ctx, sessionID);
     if (session.status !== 'open') {
@@ -165,6 +161,18 @@ export class SessionManager extends Contract {
     session.status = 'closed';
     session.closedAt = txTimestampIso(ctx);
     session.closedBy = ctx.clientIdentity.getID();
+
+    // Adjudicated here, in the same transaction as the reveal, so a session
+    // cannot be closed without its nonce claims being checked — and both
+    // endorsing organisations must agree on every verdict for it to commit.
+    // This is the first and only moment the contract can do it: until now the
+    // seed was on the faculty device. ADR-016.
+    const audit = await sweepSessionNonces(ctx, session, revealedSeed);
+    session.nonceAudit = {
+      recordsChecked: audit.recordsChecked,
+      validCount: audit.validCount,
+      invalidCount: audit.invalidCount,
+    };
 
     await ctx.stub.putState(sessionKey(ctx, sessionID), Buffer.from(canonicalize(session)));
     return canonicalize(session);
@@ -206,13 +214,6 @@ export class SessionManager extends Contract {
     if (!session) fail('SESSION_NOT_FOUND', `no session with id "${sessionID}"`);
     return session;
   }
-
-  protected assertEndorsingOrg(ctx: Context): void {
-    const msp = ctx.clientIdentity.getMSPID();
-    if (!ENDORSING_MSPS.includes(msp)) {
-      fail('UNAUTHORISED_ORG', `organisation "${msp}" may not perform this operation`);
-    }
-  }
 }
 
 function parseGeofence(raw: string): GeoPoint {
@@ -247,7 +248,18 @@ export function deadlineOf(session: Session): number {
 }
 
 export function verificationStateOf(session: Session, nowMs: number): VerificationState {
-  if (session.status === 'closed') return 'verified';
+  if (session.status === 'closed') {
+    // A revealed seed proves the faculty committed honestly. It does not
+    // prove the submissions were fresh — that is what the sweep decided, and
+    // reporting a session with failed nonce claims as "verified" would be the
+    // single most misleading thing this contract could say.
+    return (session.nonceAudit?.invalidCount ?? 0) > 0 ? 'disputed' : 'verified';
+  }
+  // A stored expiry is a fact and outranks the clock. Deriving this from time
+  // alone was enough while sessions were only ever read after their deadline,
+  // but it reported an already-expired session as in_progress to any reader
+  // whose transaction carried an earlier timestamp.
+  if (session.status === 'expired') return 'unverified';
   if (nowMs > deadlineOf(session)) return 'unverified';
   if (nowMs > Date.parse(session.startTime) + session.durationSec * 1000) {
     return 'awaiting_reveal';

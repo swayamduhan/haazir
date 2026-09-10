@@ -1,7 +1,7 @@
 # Chaincode Determinism Checklist
 
 **Applies to:** `packages/chaincode` and `packages/shared`
-**Enforced by:** `.eslintrc.determinism.js`
+**Enforced by:** `eslint.determinism.config.mjs`, via `npm run lint:determinism`
 
 ## Why this exists
 
@@ -26,9 +26,15 @@ there.
 | Iteration over an unordered collection where order affects output | Insertion order can differ | Sort explicitly first |
 | `JSON.stringify` on anything hashed or signed | Key order is insertion order, not canonical | `canonicalize()` from `@haazir/shared` |
 | Floating-point where exact equality matters | Formatting is not portable across platforms | Integers — geofence coordinates are microdegrees for this reason |
+| `Math.sin`, `cos`, `tan`, `atan2`, `log`, `exp`, `pow` | ECMAScript specifies these as *implementation-approximated*. Correct rounding is not required, so two peers may legitimately return different last bits | Integer arithmetic — `distanceWithinMetres()` in `@haazir/shared`. See [ADR-018](adr/ADR-018-integer-geodistance.md) |
 | A client-supplied timestamp treated as authoritative | It is a claim, and permits backdating | `txTimestampIso(ctx)` |
 
 ## Permitted, despite appearances
+
+Note the floating-point row is not about comparing floats for equality. The
+hazard is that the floats themselves may differ between peers: a value one ulp
+apart on two machines is two different values, and any comparison built on it
+inherits the disagreement.
 
 `new Date(deterministicMillis)` — with an **explicit argument** — is fine. The
 rule prohibits *reading* the clock, not formatting a known instant. This is

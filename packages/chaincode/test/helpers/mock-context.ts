@@ -43,6 +43,32 @@ class MockStub {
     this.state.delete(key);
   }
 
+  /**
+   * Mirrors Fabric's range query: every key under the partial composite key,
+   * in lexical key order.
+   *
+   * The ordering is not a convenience — the nonce sweep and the correction
+   * history depend on it, which is why sequence numbers are zero-padded. A
+   * mock that returned insertion order would let a test pass against
+   * behaviour the real peer does not have.
+   */
+  async getStateByPartialCompositeKey(
+    objectType: string,
+    attributes: string[],
+  ): Promise<MockIterator> {
+    const NUL = String.fromCharCode(0);
+    const prefix = attributes.length === 0
+      ? `${NUL}${objectType}${NUL}`
+      : `${NUL}${objectType}${NUL}${attributes.join(NUL)}${NUL}`;
+
+    const matched = [...this.state.entries()]
+      .filter(([key]) => key.startsWith(prefix))
+      .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))
+      .map(([key, value]) => ({ key, value }));
+
+    return new MockIterator(matched);
+  }
+
   getTxID(): string {
     return this.txId;
   }
@@ -52,6 +78,29 @@ class MockStub {
       seconds: Math.floor(this.timestampMs / 1000),
       nanos: (this.timestampMs % 1000) * 1_000_000,
     };
+  }
+}
+
+interface MockQueryResult {
+  key: string;
+  value: Buffer;
+}
+
+class MockIterator {
+  private cursor = 0;
+  public closed = false;
+
+  constructor(private readonly entries: MockQueryResult[]) {}
+
+  async next(): Promise<{ done: boolean; value?: MockQueryResult }> {
+    if (this.cursor >= this.entries.length) return { done: true };
+    const value = this.entries[this.cursor];
+    this.cursor += 1;
+    return { done: false, value };
+  }
+
+  async close(): Promise<void> {
+    this.closed = true;
   }
 }
 

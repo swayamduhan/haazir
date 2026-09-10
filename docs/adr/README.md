@@ -21,3 +21,7 @@ reconstructed under questioning.
 | [012](ADR-012-fabric-25-lts.md) | Fabric 2.5 LTS rather than 3.x | Spec §2.4 |
 | [013](ADR-013-org-level-authorisation.md) | Organisation-level authorisation for `closeSession` | Discovered in planning |
 | [014](ADR-014-chaincode-as-a-service.md) | Chaincode as a Service instead of peer-built images | Discovered in build |
+| [015](ADR-015-on-chain-course-roster.md) | The course roster lives on chain | HANDOFF §7 step 6 |
+| [016](ADR-016-deferred-nonce-verification.md) | Nonces recorded at marking, verified at close | Follows ADR-007 |
+| [017](ADR-017-device-signature-verification.md) | Device signature verified inside the contract | Spec §7.1 |
+| [018](ADR-018-integer-geodistance.md) | Geofence distance computed in integers | Discovered in build |
