@@ -1,4 +1,4 @@
-# Design Spec: Attendance Recording (Milestone 3, part 1)
+# Design Spec: Attendance Recording and Eligibility (Milestone 3)
 
 **Date:** 2026-09-10
 **Status:** Implemented
@@ -27,13 +27,13 @@ This milestone makes marking real:
 | Liveness | `markAttendance` requires a well-formed on-device attestation digest |
 | Freshness | Claimed at marking, adjudicated by `closeSession` when the seed is revealed |
 | Eligibility | `markAttendance` reads the on-chain course roster |
+| The verdict | `computeEligibility` totals it all in the contract, in integer basis points |
 
 ## 2. Corrections to the Review II design
 
-**§6.4 "Deferred models" is partly resolved.** `AttendanceRecord` and the
-course roster were listed as Milestone 3 models with no schema. Both are now
-specified in §4 below. `ExemptionRecord` and the policy models remain
-deferred.
+**§6.4 "Deferred models" is resolved.** `AttendanceRecord`, the course roster
+and `ExemptionRecord` were listed as Milestone 3 models with no schema. All
+are specified in §4 below.
 
 **`HANDOFF.md` §7 step 6 is superseded.** Enrolment was to be checked in the
 backend against the institutional SIS before invoking. That check is
@@ -62,13 +62,13 @@ additionally bans trigonometry (§7 below).
 
 **In scope.** `CourseRoster`; `AttendanceRecorder` with `markAttendance`,
 `correctAttendance` and three queries; the nonce sweep inside `closeSession`;
-ed25519 signing and verification in the shared library; deterministic
-geodistance; the reference device signer; an end-to-end demo on the live
-network.
+`PolicyEngine` with exemptions and eligibility; ed25519 signing and
+verification in the shared library; deterministic geodistance; the reference
+device signer; an end-to-end demo on the live network.
 
-**Out of scope.** `PolicyEngine` (eligibility percentages, exemptions); the
-Express routes; the mobile client; the faculty console; PostgreSQL and IPFS;
-benchmarking. All remain as the Review II spec left them.
+**Out of scope.** The Express routes; the mobile client; the faculty console;
+PostgreSQL and the IPFS node itself; benchmarking. All remain as the Review II
+spec left them.
 
 ---
 
@@ -132,6 +132,46 @@ Key: `nonceAudit~sessionID`. Holds `checkedAt`, `recordsChecked`,
 Written once, by `closeSession`. A three-field summary is copied onto the
 session itself so a reader does not need a second lookup to know whether the
 session is disputed.
+
+### 4.5 CourseSessionIndex
+
+Key: `courseSession~courseID~sessionID`. Holds `courseID`, `sessionID` and
+`startTime`.
+
+Written by `createSession`. Without it, counting a course's meetings would
+mean scanning every session on the ledger and filtering — unbounded, and
+growing for the institution's lifetime.
+
+`startTime` is copied because it is immutable after creation, so the copy
+cannot drift, and it lets sessions predating a student's enrolment be skipped
+without reading them. `status` is deliberately **not** copied: it changes, and
+a second place for it to live is a second place for it to be wrong.
+
+### 4.6 ExemptionRecord
+
+Key: `exemption~courseID~studentID~sessionID`, ordered so one student's
+exemptions for a course come back in a single range query.
+
+| Field | Notes |
+|---|---|
+| `exemptionID` | Derived from the transaction id |
+| `kind` | `medical`, `official_duty` or `institutional` |
+| `effect` | `counts_present` or `excluded` — the policy choice, on the record |
+| `evidenceCID` | IPFS content identifier. The document never reaches the ledger |
+| `status` | `active` or `revoked`; a revocation keeps the original grant |
+| `grantedBy`/`grantedAt`, `revokedBy`/`revokedAt` | X.509 identity, ledger timestamp |
+
+### 4.7 EligibilityReport
+
+Not stored — computed at read time and returned. Carries `sessionsHeld`,
+`sessionsCounted`, `present`, `presentVerified`, `exempted`,
+`creditedByExemption`, `rejectedForNonce`, `attendancePercentBp`,
+`thresholdBp`, `eligible` and `computedAt`.
+
+Every input to the verdict is itemised because a bare percentage invites the
+dispute this system exists to settle. A student contesting the number can see
+which sessions counted, which were excused, and which credits were voided
+because the nonce did not survive the sweep.
 
 ---
 
@@ -234,6 +274,54 @@ which is the correct reading and is why `expireSession` exists.
 
 ---
 
+### 5.5 PolicyEngine
+
+| Function | Rejects with |
+|---|---|
+| `applyExemption(courseID, studentID, sessionID, kind, effect, evidenceCID, reason)` | `UNAUTHORISED_ORG`, `INVALID_EXEMPTION_KIND`, `INVALID_EXEMPTION_EFFECT`, `INVALID_EVIDENCE_CID`, `MISSING_REASON`, `NOT_ENROLLED`, `SESSION_NOT_FOUND`, `COURSE_MISMATCH`, `EXEMPTION_EXISTS` |
+| `revokeExemption(courseID, studentID, sessionID, reason)` | `UNAUTHORISED_ORG`, `MISSING_REASON`, `EXEMPTION_NOT_FOUND`, `EXEMPTION_NOT_ACTIVE` |
+| `getExemption`, `listExemptions`, `getCourseSessions` | `EXEMPTION_NOT_FOUND` |
+| `computeEligibility(courseID, studentID)` | `NOT_ENROLLED` |
+
+`INVALID_EVIDENCE_CID` rejects a URL as firmly as it rejects nonsense: a URL
+is a location, not a hash, and it neither proves what was filed nor survives
+the file moving.
+
+**The arithmetic.** For each indexed session of the course, in key order:
+
+1. Skip it if it started before the student's `enrolledAt` — sessions that ran
+   before they joined are not theirs to attend.
+2. Read the session; skip it if `status` is `open`. A class in progress would
+   otherwise mark every student absent.
+3. `sessionsHeld++`.
+4. An active exemption with effect `excluded` removes the session from the
+   denominator; `exempted++` and move on.
+5. `sessionsCounted++`.
+6. An active exemption with effect `counts_present` credits it;
+   `creditedByExemption++` and move on.
+7. Read the student's attendance index; skip unless the current status is
+   `present`.
+8. Read the session's `NonceAudit`. If a verdict exists for this record and it
+   failed, `rejectedForNonce++` and move on — the sweep is only meaningful if
+   its verdict reaches the number that decides whether a student sits the
+   exam.
+9. `present++`, and `presentVerified++` only if a verdict exists and passed.
+
+`attendancePercentBp = floor((present + creditedByExemption) * 10000 /
+sessionsCounted)`, or 10000 when nothing has concluded.
+
+**No verdict is not a passing verdict.** An expired session was never swept,
+and a correction carries no nonce to check. Both earn credit — refusing it
+would punish students for a faculty member's failure to close a session — but
+`presentVerified` counts neither, so the report says exactly how much of the
+total rests on attestation rather than proof. See ADR-019.
+
+**Cost.** Two range queries, then at most three point reads per concluded
+session. A course meeting three times a week for fifteen weeks is roughly 135
+local reads, in a query that reaches no consensus.
+
+---
+
 ## 6. The signing protocol
 
 The device signs the canonical encoding of eight fields — `claimedNonce`,
@@ -284,7 +372,7 @@ cannot be reintroduced by someone who has not read ADR-018.
 
 ## 8. Testing
 
-186 tests, up from 98: 67 in `@haazir/shared` (was 41), 111 in
+221 tests, up from 98: 75 in `@haazir/shared` (was 41), 138 in
 `@haazir/chaincode` (was 49), and the backend's 8 error-translation tests
 unchanged.
 
@@ -296,11 +384,16 @@ unchanged.
 | `attendance-marking.test.ts` | One test per rejection code, plus the rotated-key replay |
 | `attendance-corrections.test.ts` | The original is byte-identical after correction; chains past sequence 9 |
 | `nonce-sweep.test.ts` | Honest and forged in one session; disputed versus verified; expiry leaves no verdict |
+| `eligibility.test.ts` | Basis-point arithmetic; open sessions excluded; a forged nonce costing the credit |
+| `exemptions.test.ts` | Both effects on the arithmetic; revocation; CID shapes accepted and refused |
+| `evidence.test.ts` | CIDv0 and CIDv1 against URLs, digests and truncated ids |
 
-Two defects were found by tests written for this milestone rather than by
+Three defects were found by tests written for this milestone rather than by
 review: the cosine table's four-decimal quantisation exceeded the accuracy
-this document claims, fixed by moving to six places; and
-`verificationStateOf` ignored a stored expiry and derived it from the clock.
+this document claims, fixed by moving to six places; `verificationStateOf`
+ignored a stored expiry and derived it from the clock; and eligibility
+credited an expired session's marks with no way for a reader to tell they had
+never been verified, which is what `presentVerified` now exists for.
 
 The mock stub gained `getStateByPartialCompositeKey`, returning entries in
 lexical key order. A mock returning insertion order would let tests pass
@@ -310,21 +403,29 @@ against behaviour the real peer does not have.
 
 ## 9. Verified on the live network
 
-Deployed as `haazir` v2.0, sequence 2, under the unchanged policy
+Deployed as `haazir` v3.0, sequence 3, under the unchanged policy
 `AND('RegistrarMSP.peer','ExamCellMSP.peer')`, across three organisations
-running their own chaincode services. The CLI demo runs seventeen steps
-end-to-end, including six negative cases that must reject: an out-of-geofence
+running their own chaincode services.
+
+The CLI demo runs twenty-one steps end-to-end. Steps 1 to 17 cover one session
+in depth, including the negative cases that must reject: an out-of-geofence
 submission, a signature from a revoked key, a duplicate mark, a wrong seed at
-close, and a forged nonce that is accepted at marking and exposed at close.
-The session then reports `disputed` rather than `verified`.
+close, and a forged nonce that is accepted at marking and exposed at close,
+after which the session reports `disputed` rather than `verified`.
+
+Steps 18 to 21 run a term of four meetings on a second course. The student
+attends two, computes to 5000 basis points and is ineligible; the exam cell
+grants on-duty leave for a third meeting against a CID anchor; the same
+computation then yields 7500 and eligibility, with `presentVerified` still
+counting only the two marks the sweep confirmed.
 
 ---
 
 ## 10. Still deferred
 
-Unchanged from the Review II spec: `PolicyEngine`, exemptions and evidence
-anchoring, the Express routes, the mobile client, the faculty console,
-PostgreSQL for PII, IPFS, the public verifier page, and benchmarking.
+Unchanged from the Review II spec: the Express routes, the mobile client, the
+faculty console, PostgreSQL for PII, the IPFS node, the public verifier page,
+and benchmarking.
 
 Newly relevant:
 
@@ -335,3 +436,10 @@ Newly relevant:
   element rather than in a rooted phone's filesystem.
 - **Per-function endorsement**, so Audit could invoke `expireSession` alone.
   Carried from ADR-013.
+- **Per-period roster history.** Eligibility takes the enrolment date from the
+  current roster entry, so a student who dropped and re-enrolled loses their
+  first period from the denominator. ADR-019.
+- **A backfill for the course index.** Sessions created before this milestone
+  carry none and are invisible to eligibility.
+- **Resolving an evidence CID.** The contract validates its shape and cannot
+  fetch it; a well-formed CID for a document nobody uploaded is accepted.

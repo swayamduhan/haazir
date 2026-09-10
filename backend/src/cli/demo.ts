@@ -1,8 +1,10 @@
 import { randomBytes } from 'crypto';
 import {
-  attendancePayload, commitSeed, deriveNonce, DeviceKeyPair, generateDeviceKeyPair,
-  hashPublicKey, NonceAudit, sha256Hex, signAttendance, toE7, windowFor,
+  attendancePayload, commitSeed, deriveNonce, DeviceKeyPair, EligibilityReport,
+  generateDeviceKeyPair, hashPublicKey, NonceAudit, sha256Hex, signAttendance,
+  toE7, windowFor,
 } from '@haazir/shared';
+import { ContractHandle, GatewayHandle } from '../gateway';
 import { connect } from '../gateway';
 
 const line = (s = '') => console.log(s);
@@ -33,17 +35,18 @@ interface MarkArgs {
   device: DeviceKeyPair;
   window: number;
   nonce: string;
+  courseId?: string;
   location?: { latE7: number; lngE7: number };
 }
 
 /** Signs on the "device", then submits exactly what the device produced. */
 function markArgs(a: MarkArgs): string[] {
   const location = a.location ?? CENTRE;
-  const livenessHash = sha256Hex(`liveness-${a.studentId}`);
+  const livenessHash = sha256Hex(`liveness-${a.studentId}-${a.sessionId}`);
   const claim = {
     sessionID: a.sessionId,
     studentID: a.studentId,
-    courseID: COURSE,
+    courseID: a.courseId ?? COURSE,
     claimedWindow: a.window,
     claimedNonce: a.nonce,
     latE7: location.latE7,
@@ -66,6 +69,7 @@ async function main(): Promise<void> {
   const sessions = gw.contract('SessionManager');
   const roster = gw.contract('CourseRoster');
   const attendance = gw.contract('AttendanceRecorder');
+  const policy = gw.contract('PolicyEngine');
 
   try {
     rule(1, 'Enrol a student, holding a real ed25519 device key');
@@ -86,16 +90,24 @@ async function main(): Promise<void> {
       hashPublicKey(lostPhone.publicKeyHex), phone.publicKeyHex, 'lost_device');
     ok('revocation event recorded; the old key is no longer the active one');
 
-    rule(4, 'Enrol faculty and open a session');
+    rule(4, 'Enrol faculty, and put the student on the course roster');
     const facultyId = await identities.submit(
       'registerIdentity', sha256Hex(`faculty-${hex(8)}`), hex(32), 'faculty');
     ok(`facultyID = ${facultyId}`);
 
+    await roster.submit('enrolStudent', COURSE, studentId);
+    ok(`isEnrolled = ${await roster.evaluate('isEnrolled', COURSE, studentId)}`);
+    info('On chain, not in an SIS lookup: a check the contract never sees is a');
+    info('check a bypassed client skips. ADR-015.');
+    info('Enrolment comes first, because sessions that ran before a student');
+    info('joined are not theirs to attend and do not count against them.');
+
+    rule(5, 'Open a session, committing to a seed without revealing it');
     // The seed never leaves this process. Only its hash goes on chain.
     const seed = hex(32);
     const seedHash = commitSeed(seed);
     const sessionId = `S-${hex(4)}`;
-    const startTime = new Date(Date.now() - 60_000).toISOString();
+    const startTime = new Date().toISOString();
     const startMs = Date.parse(startTime);
 
     await sessions.submit('createSession', sessionId, COURSE, facultyId, 'LH-3',
@@ -105,17 +117,11 @@ async function main(): Promise<void> {
     info(`committed seed hash = ${seedHash}`);
     info('The seed itself has not been transmitted.');
 
-    rule(5, 'Put the student on the course roster');
-    await roster.submit('enrolStudent', COURSE, studentId);
-    ok(`isEnrolled = ${await roster.evaluate('isEnrolled', COURSE, studentId)}`);
-    info('On chain, not in an SIS lookup: a check the contract never sees is a');
-    info('check a bypassed client skips. ADR-015.');
-
     rule(6, 'Derive rotating nonces locally — no ledger interaction');
-    const w = windowFor(Date.now(), startMs);
-    for (const each of [w - 1, w, w + 1]) {
+    for (const each of [0, 1, 2]) {
       info(`window ${each}: ${deriveNonce(seed, each).slice(0, 40)}...`);
     }
+    info(`current window = ${windowFor(Date.now(), startMs)}`);
     info('Rotation costs zero transactions. A screenshot expires in 10 seconds.');
 
     rule(7, 'NEGATIVE — mark attendance from outside the geofence');
@@ -252,6 +258,8 @@ async function main(): Promise<void> {
       process.exitCode = 1;
     }
 
+    await term(gw, identities, roster, sessions, attendance, policy, facultyId);
+
     line();
     line('='.repeat(72));
     line('  Demo complete.');
@@ -265,3 +273,107 @@ main().catch((err) => {
   console.error('\nDemo failed:', err instanceof Error ? err.message : err);
   process.exit(1);
 });
+
+const TERM_COURSE = 'CS102';
+const GEOFENCE = JSON.stringify({ lat: 12.9716, lng: 77.5946 });
+
+/** Opens one class meeting, marks the given students, and closes it. */
+async function meeting(
+  sessions: ContractHandle,
+  attendance: ContractHandle,
+  facultyId: string,
+  id: string,
+  attendees: { studentId: string; device: DeviceKeyPair }[],
+): Promise<void> {
+  const seed = hex(32);
+  const startTime = new Date().toISOString();
+
+  await sessions.submit('createSession', id, TERM_COURSE, facultyId, 'LH-7',
+    startTime, '3600', '900', GEOFENCE, '50', commitSeed(seed));
+
+  for (const a of attendees) {
+    const window = windowFor(Date.now(), Date.parse(startTime));
+    await attendance.submit('markAttendance', ...markArgs({
+      sessionId: id, studentId: a.studentId, device: a.device,
+      courseId: TERM_COURSE, window, nonce: deriveNonce(seed, window),
+    }));
+  }
+
+  await sessions.submit('closeSession', id, seed);
+}
+
+function showReport(r: EligibilityReport): void {
+  const pct = (r.attendancePercentBp / 100).toFixed(2);
+  info(`sessions held        ${r.sessionsHeld}`);
+  info(`counted (denominator)${String(r.sessionsCounted).padStart(2)}`);
+  info(`present              ${r.present}   (verified by nonce: ${r.presentVerified})`);
+  info(`credited by exemption${String(r.creditedByExemption).padStart(2)}`);
+  info(`excused from total   ${r.exempted}`);
+  info(`voided, forged nonce ${r.rejectedForNonce}`);
+  info(`attendance           ${pct}%  (${r.attendancePercentBp} basis points)`);
+}
+
+/**
+ * A term's worth of meetings, and the number that decides whether the student
+ * sits the examination.
+ */
+async function term(
+  _gw: GatewayHandle,
+  identities: ContractHandle,
+  roster: ContractHandle,
+  sessions: ContractHandle,
+  attendance: ContractHandle,
+  policy: ContractHandle,
+  facultyId: string,
+): Promise<void> {
+  rule(18, `A full term of ${TERM_COURSE}: four meetings, two attended`);
+  const device = generateDeviceKeyPair();
+  const studentId = await identities.submit(
+    'registerIdentity', sha256Hex(`term-${hex(8)}`), device.publicKeyHex, 'student');
+  await roster.submit('enrolStudent', TERM_COURSE, studentId);
+  ok(`student ${studentId} enrolled in ${TERM_COURSE}`);
+
+  const ids = [1, 2, 3, 4].map((n) => `W${n}-${hex(3)}`);
+  for (const [n, id] of ids.entries()) {
+    await meeting(sessions, attendance, facultyId, id,
+      n < 2 ? [{ studentId, device }] : []);
+    info(`${id}: closed, student ${n < 2 ? 'present' : 'absent'}`);
+  }
+
+  rule(19, 'Eligibility, computed by the contract and not reported to it');
+  const before: EligibilityReport = JSON.parse(
+    await policy.evaluate('computeEligibility', TERM_COURSE, studentId));
+  showReport(before);
+  if (before.eligible) {
+    bad('two of four should not clear a 75% threshold');
+    process.exitCode = 1;
+  } else {
+    ok(`eligible = false, threshold ${before.thresholdBp / 100}%`);
+  }
+  info('Basis points, not a float: a percentage is exactly the value that');
+  info('arrives as 74.99999999999999, and canonical encoding refuses it.');
+
+  rule(20, 'The exam cell grants on-duty leave for the third meeting');
+  const cid = 'QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG';
+  await policy.submit('applyExemption', TERM_COURSE, studentId, ids[2],
+    'official_duty', 'counts_present', cid,
+    'represented the college at an inter-collegiate fixture');
+  ok(`exemption anchored to ${cid}`);
+  info('The letter itself is not on chain. A CID is a hash of the content, so');
+  info('it proves which document was filed while containing none of it —');
+  info('delete the file and the anchor points at nothing. ADR-020.');
+
+  rule(21, 'The same computation, one exemption later');
+  const after: EligibilityReport = JSON.parse(
+    await policy.evaluate('computeEligibility', TERM_COURSE, studentId));
+  showReport(after);
+  if (!after.eligible) {
+    bad('three of four should clear a 75% threshold');
+    process.exitCode = 1;
+  } else {
+    ok('eligible = true');
+  }
+  info('The credit is an exemption, not an attendance record: nothing was');
+  info('written into the attendance history to make the arithmetic work, and');
+  info('presentVerified still counts only what the nonce sweep confirmed.');
+}
