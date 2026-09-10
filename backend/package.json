@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "demo": "node dist/cli/demo.js"
+    "demo": "node dist/cli/demo.js",
+    "test": "jest"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.10.9",
