@@ -30,6 +30,7 @@ Or step by step:
 ./network/scripts/prove-endorsement-policy.sh   # the negative demonstration
 npm run demo --workspace @haazir/backend     # full walkthrough
 npm test                                     # unit tests, no network needed
+npm run lint:determinism                     # bans clock, randomness and trigonometry
 ./network/scripts/network-down.sh
 ```
 
@@ -54,7 +55,7 @@ helper, and `install-fabric.sh` exits 0 even when every pull failed.
 | Path | Contents |
 |---|---|
 | `packages/shared/` | Canonical encoding, hashing, nonce derivation, shared types. Used by chaincode, backend, and later mobile, so signed payloads cannot diverge. |
-| `packages/chaincode/` | `IdentityRegistry` and `SessionManager`, one deployable package (ADR-011). |
+| `packages/chaincode/` | `IdentityRegistry`, `SessionManager`, `CourseRoster` and `AttendanceRecorder`, one deployable package (ADR-011). |
 | `network/` | Network lifecycle, MSP mapping, CCaaS deployment, endorsement policy proof. |
 | `backend/` | `fabric-gateway` connection module and the CLI demo. |
 | `docs/threat-model.md` | Attack/countermeasure table, including the gaps this design does **not** close. |
