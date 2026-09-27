@@ -1,0 +1,17 @@
+$ docker ps --format table {{.Names}}\t{{.Image}}\t{{.Status}}
+
+NAMES                    IMAGE                               STATUS
+haazir-cc-audit          haazir-cc:latest                    Up 8 minutes
+haazir-cc-examcell       haazir-cc:latest                    Up 8 minutes
+haazir-cc-registrar      haazir-cc:latest                    Up 8 minutes
+peer0.org3.example.com   hyperledger/fabric-peer:latest      Up 8 minutes
+couchdb4                 couchdb:3.4.2                       Up 8 minutes
+ca_org3                  hyperledger/fabric-ca:latest        Up 9 minutes
+peer0.org1.example.com   hyperledger/fabric-peer:latest      Up 9 minutes
+peer0.org2.example.com   hyperledger/fabric-peer:latest      Up 9 minutes
+couchdb0                 couchdb:3.4.2                       Up 9 minutes
+orderer.example.com      hyperledger/fabric-orderer:latest   Up 9 minutes
+couchdb1                 couchdb:3.4.2                       Up 9 minutes
+ca_org1                  hyperledger/fabric-ca:latest        Up 9 minutes
+ca_org2                  hyperledger/fabric-ca:latest        Up 9 minutes
+ca_orderer               hyperledger/fabric-ca:latest        Up 9 minutes

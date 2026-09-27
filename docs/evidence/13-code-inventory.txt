@@ -1,0 +1,48 @@
+$ code_inventory
+
+Contracts:
+  packages/chaincode/src/contracts/attendance-recorder.ts  332 lines
+  packages/chaincode/src/contracts/course-roster.ts  156 lines
+  packages/chaincode/src/contracts/identity-registry.ts  128 lines
+  packages/chaincode/src/contracts/policy-engine.ts  302 lines
+  packages/chaincode/src/contracts/session-manager.ts  277 lines
+
+Shared library (used by chaincode, backend and the device signer):
+  packages/shared/src/canonical.ts                 42 lines
+  packages/shared/src/config.ts                    18 lines
+  packages/shared/src/device-keys.ts               35 lines
+  packages/shared/src/evidence.ts                  21 lines
+  packages/shared/src/geo.ts                      121 lines
+  packages/shared/src/hashing.ts                   67 lines
+  packages/shared/src/index.ts                      9 lines
+  packages/shared/src/nonce.ts                     40 lines
+  packages/shared/src/signing.ts                   96 lines
+  packages/shared/src/types.ts                    282 lines
+
+Transaction functions exposed on the ledger:
+  applyExemption
+  closeSession
+  computeEligibility
+  correctAttendance
+  createSession
+  dropStudent
+  enrolStudent
+  expireSession
+  getAttendance
+  getCourseSessions
+  getEnrolment
+  getExemption
+  getIdentityStatus
+  getNonceAudit
+  getRoster
+  getSession
+  getSessionAttendance
+  isEnrolled
+  listExemptions
+  markAttendance
+  registerIdentity
+  revokeAndReissueKey
+  revokeExemption
+
+TypeScript source, total: 5329 lines
+Test files: 16, assertions: 343

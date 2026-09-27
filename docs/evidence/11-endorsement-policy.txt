@@ -1,0 +1,28 @@
+$ bash /home/swayam/haazir/network/scripts/prove-endorsement-policy.sh
+
+
+==============================================================
+ NEGATIVE — write endorsed by Registrar ALONE
+ Expected: transaction invalidated; nothing written to the ledger
+==============================================================
+  proposal simulated an identity: 4183e1ef-ff41-27b2-8438-92e33e373b6d
+  (the CLI reports the proposal, not the commit — so it looks fine here)
+
+  Reading the ledger back: IDENTITY_NOT_FOUND.
+  Committer's reason code:
+    marked as invalid by committer. Reason code [ENDORSEMENT_POLICY_FAILURE]
+>>> Correctly rejected. No single organization can write alone.
+
+==============================================================
+ POSITIVE — write endorsed by Registrar AND ExamCell
+ Expected: transaction valid; record present in the ledger
+==============================================================
+  identityID: e0ef9936-94b3-d9a5-978d-d24eb9fa0393
+  Reading the ledger back:
+    {"enrolledAt":"2026-09-27T17:51:47.628Z","enrolledBy":"RegistrarMSP","identityHash":"64731c7d54e811f77d622cea6c18a53c7043a4db87e4e6531062185317b8d6e2","identityID":"e0ef9936-94b3-d9a5-978d-d24eb9fa0393","publicKey":"ada864ed3b225812fde8cce45031e6069e3bf72f55901b9319c404c650cd7e64","role":"student","status":"active"}
+>>> Accepted, as expected.
+
+==============================================================
+ AND(Registrar, ExamCell) is enforced by consensus.
+ One organization acting alone cannot alter the record.
+==============================================================

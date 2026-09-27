@@ -1,0 +1,20 @@
+$ peer lifecycle chaincode queryinstalled --output json
+
+{
+	"installed_chaincodes": [
+		{
+			"package_id": "haazir_1.0:3ff59718064303fdae1e99c1aa6f56d6a7696501e381dde974db482215e35b7e",
+			"label": "haazir_1.0",
+			"references": {
+				"attendance-channel": {
+					"chaincodes": [
+						{
+							"name": "haazir",
+							"version": "1.0"
+						}
+					]
+				}
+			}
+		}
+	]
+}

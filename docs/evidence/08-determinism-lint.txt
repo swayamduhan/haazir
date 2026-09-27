@@ -1,0 +1,6 @@
+$ npm run lint:determinism
+
+
+> haazir@0.1.0 lint:determinism
+> eslint --config eslint.determinism.config.mjs packages/chaincode/src packages/shared/src
+

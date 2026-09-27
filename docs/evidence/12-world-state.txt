@@ -1,0 +1,21 @@
+$ couch_keys
+
+CouchDB state database: attendance-channel_haazir
+
+{
+  "db_name": "attendance-channel_haazir",
+  "doc_count": 80,
+  "disk_size": null
+}
+
+Keys currently in the world state, grouped by object type:
+     11 identityHash~id
+     11 identity
+     10 session
+     10 nonceAudit
+     10 courseSession
+     10 attRec
+      8 attendance
+      6 roster
+      2 revocation
+      2 exemption

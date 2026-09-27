@@ -1,0 +1,15 @@
+$ peer lifecycle chaincode querycommitted --channelID attendance-channel --name haazir --output json
+
+{
+	"sequence": 1,
+	"version": "1.0",
+	"endorsement_plugin": "escc",
+	"validation_plugin": "vscc",
+	"validation_parameter": "CjUSDBIKCAISAggAEgIIARoSEhAKDFJlZ2lzdHJhck1TUBADGhESDwoLRXhhbUNlbGxNU1AQAw==",
+	"collections": {},
+	"approvals": {
+		"AuditMSP": false,
+		"ExamCellMSP": true,
+		"RegistrarMSP": true
+	}
+}

@@ -1,0 +1,177 @@
+$ npm run demo --workspace @haazir/backend
+
+
+> @haazir/backend@0.1.0 demo
+> node dist/cli/demo.js
+
+
+========================================================================
+  1. Enrol a student, holding a real ed25519 device key
+========================================================================
+  [ok]   identityID = b9b7965f-79b4-896c-758c-3eedb26444e0
+         Derived from the transaction id, not randomly: every endorsing peer
+         executes independently and must produce byte-identical output.
+
+========================================================================
+  2. Read the identity back from the ledger
+========================================================================
+         {"enrolledAt":"2026-09-27T17:50:53.621Z","enrolledBy":"RegistrarMSP","identityHash":"3865b55c886761fbc46bad64de3cd633c9b5146aa87c009ad5419765fe3621cc","identityID":"b9b7965f-79b4-896c-758c-3eedb26444e0","publicKey":"f46dd8bb77199a7a2a397dfdc0949e2e268df817b825244059c3ecbddd0f815d","role":"student","status":"active"}
+         No PII on chain — identityHash is a salted hash computed off-chain.
+
+========================================================================
+  3. The phone is lost. Rotate to a new device key
+========================================================================
+  [ok]   revocation event recorded; the old key is no longer the active one
+
+========================================================================
+  4. Enrol faculty, and put the student on the course roster
+========================================================================
+  [ok]   facultyID = 3f0c601d-27c6-13d2-d385-1de1798cec3d
+  [ok]   isEnrolled = true
+         On chain, not in an SIS lookup: a check the contract never sees is a
+         check a bypassed client skips. ADR-015.
+         Enrolment comes first, because sessions that ran before a student
+         joined are not theirs to attend and do not count against them.
+
+========================================================================
+  5. Open a session, committing to a seed without revealing it
+========================================================================
+  [ok]   session S-98482f0a open
+         committed seed hash = 1706f44ab5b697588601cc8caaffd678c1380032afa41a4e3d48a23fa5d7b404
+         The seed itself has not been transmitted.
+
+========================================================================
+  6. Derive rotating nonces locally — no ledger interaction
+========================================================================
+         window 0: c6e54450106d18b6bbef00e5e7ef13a7832bdaf8...
+         window 1: c25ae6d431c019e2f861d953d5a786af7c277988...
+         window 2: ae2bf64592e19a4859247dcb8342f232c1ed623c...
+         current window = 0
+         Rotation costs zero transactions. A screenshot expires in 10 seconds.
+
+========================================================================
+  7. NEGATIVE — mark attendance from outside the geofence
+========================================================================
+  [ok]   rejected: OUTSIDE_GEOFENCE: submitted location is 300 m from the geofence centre, limit 50 m
+         Distance is computed in integers. Haversine calls Math.sin/cos, which
+         ECMAScript leaves implementation-approximated — two peers could
+         legitimately disagree at the boundary. ADR-018.
+
+========================================================================
+  8. NEGATIVE — mark attendance signed by the LOST phone
+========================================================================
+  [ok]   rejected: INVALID_SIGNATURE: the signature does not verify against the key registered for "b9b7965f-79b4-896c-758c-3eedb26444e0"
+         The stolen device can still sign. The registry no longer trusts it.
+
+========================================================================
+  9. Mark attendance from the enrolled device, inside the geofence
+========================================================================
+  [ok]   recordID = 8224ef0360c580edf4f7a531c95c3266, status = present
+         claimed window 0, nonce c6e54450106d18b6bbef00e5...
+         The nonce is RECORDED, not verified: the seed is still secret. The
+         contract has nothing to compare against until the session closes.
+
+========================================================================
+  10. NEGATIVE — mark a second time in the same session
+========================================================================
+  [ok]   rejected: DUPLICATE_ATTENDANCE: "b9b7965f-79b4-896c-758c-3eedb26444e0" already has an attendance record for session "S-98482f0a"
+         An exact-key read, so it is in the read set and MVCC protects it.
+         A CouchDB rich query would not be revalidated at commit. Defect C6.
+
+========================================================================
+  11. A second student forges a nonce, and it is accepted
+========================================================================
+  [ok]   3fd07738-4be9-fd03-815a-cfb6cd95fffd marked present with a nonce it invented
+         Nothing on chain can detect this yet. That is not a gap being hidden —
+         it is the cost of keeping the seed off chain, and it is about to be paid.
+
+========================================================================
+  12. Correct a record — append-only, never an edit
+========================================================================
+  [ok]   current status = absent (seq 1)
+         history: 0:present -> 1:absent
+         seq 0 still reads "present" and still carries its signature.
+         The original was not touched. ADR-006.
+
+========================================================================
+  13. NEGATIVE — close the session with the WRONG seed
+========================================================================
+  [ok]   rejected: SEED_COMMITMENT_MISMATCH: the revealed seed does not match the commitment made at session creation
+         The faculty cannot retrofit a seed after seeing submissions.
+
+========================================================================
+  14. Close with the CORRECT seed — nonces are adjudicated here
+========================================================================
+  [ok]   status = closed
+         revealed seed = ebb3b570312e651f6a40a58bda6c20772c1a4c2b301ae54e52e0ebde462d45d8
+         sweep: {"invalidCount":1,"recordsChecked":2,"validCount":1}
+
+========================================================================
+  15. The forged nonce is now exposed, by consensus
+========================================================================
+  [caught] 3fd07738-4be9-fd03-815a-cfb6cd95fffd  window 0  NONCE FORGED
+           claimed  dededededededededededededededededededededededede...
+           expected c6e54450106d18b6bbef00e5e7ef13a7832bdaf8ae1ce58a...
+  [ok]     b9b7965f-79b4-896c-758c-3eedb26444e0  window 0  nonce matched
+
+========================================================================
+  16. The session reports what it can actually prove
+========================================================================
+  [ok]   verificationState = disputed
+         "verified" would have been a lie: the seed was revealed honestly, but
+         one submission was not fresh. Both facts are on the ledger.
+
+========================================================================
+  17. Anyone can recheck all of it, holding only the ledger
+========================================================================
+  [ok]   recomputed the nonce from the revealed seed — no trusted server needed
+
+========================================================================
+  18. A full term of CS102: four meetings, two attended
+========================================================================
+  [ok]   student 877a5932-113e-648b-0acb-71254f3a2ab5 enrolled in CS102
+         W1-b815b7: closed, student present
+         W2-9eac77: closed, student present
+         W3-70f2bf: closed, student absent
+         W4-3ddd25: closed, student absent
+
+========================================================================
+  19. Eligibility, computed by the contract and not reported to it
+========================================================================
+         sessions held        4
+         counted (denominator) 4
+         present              2   (verified by nonce: 2)
+         credited by exemption 0
+         excused from total   0
+         voided, forged nonce 0
+         attendance           50.00%  (5000 basis points)
+  [ok]   eligible = false, threshold 75%
+         Basis points, not a float: a percentage is exactly the value that
+         arrives as 74.99999999999999, and canonical encoding refuses it.
+
+========================================================================
+  20. The exam cell grants on-duty leave for the third meeting
+========================================================================
+  [ok]   exemption anchored to QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG
+         The letter itself is not on chain. A CID is a hash of the content, so
+         it proves which document was filed while containing none of it —
+         delete the file and the anchor points at nothing. ADR-020.
+
+========================================================================
+  21. The same computation, one exemption later
+========================================================================
+         sessions held        4
+         counted (denominator) 4
+         present              2   (verified by nonce: 2)
+         credited by exemption 1
+         excused from total   0
+         voided, forged nonce 0
+         attendance           75.00%  (7500 basis points)
+  [ok]   eligible = true
+         The credit is an exemption, not an attendance record: nothing was
+         written into the attendance history to make the arithmetic work, and
+         presentVerified still counts only what the nonce sweep confirmed.
+
+========================================================================
+  Demo complete.
+========================================================================

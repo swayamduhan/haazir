@@ -1,0 +1,1722 @@
+$ npm test
+
+
+> haazir@0.1.0 test
+> npm run test --workspaces --if-present
+
+
+> @haazir/shared@0.1.0 test
+> jest
+
+PASS test/canonical.test.ts
+PASS test/signing.test.ts
+PASS test/nonce.test.ts
+PASS test/geo.test.ts
+PASS test/hashing.test.ts
+PASS test/evidence.test.ts
+
+Test Suites: 6 passed, 6 total
+Tests:       75 passed, 75 total
+Snapshots:   0 total
+Time:        1.844 s, estimated 3 s
+Ran all test suites.
+
+> @haazir/chaincode@0.1.0 test
+> jest
+
+PASS test/eligibility.test.ts
+  ● Console
+
+    console.log
+      2026-09-27T17:50:51.295Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> markAttendance, Return Type -> string,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.339Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> markAttendance, Commit -> true,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.349Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> correctAttendance, Return Type -> string,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.350Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> correctAttendance, Commit -> true,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.351Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getAttendance, Return Type -> string,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.352Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getAttendance, Commit -> false,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.361Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getSessionAttendance, Return Type -> string,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.362Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getSessionAttendance, Commit -> false,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.363Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getNonceAudit, Return Type -> string,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.364Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getNonceAudit, Commit -> false,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.377Z [32minfo[39m [c-api:./lib/annotations/info.js]                   @Info args: "Info -> [object Object],","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.380Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> enrolStudent, Return Type -> string,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.400Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> enrolStudent, Commit -> true,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.400Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> dropStudent, Return Type -> string,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.401Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> dropStudent, Commit -> true,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.401Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> isEnrolled, Return Type -> string,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.402Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> isEnrolled, Commit -> false,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.402Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getEnrolment, Return Type -> string,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.402Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getEnrolment, Commit -> false,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.403Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getRoster, Return Type -> string,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.403Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getRoster, Commit -> false,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.404Z [32minfo[39m [c-api:./lib/annotations/info.js]                   @Info args: "Info -> [object Object],","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.412Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> applyExemption, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.413Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> applyExemption, Commit -> true,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.414Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> revokeExemption, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.414Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> revokeExemption, Commit -> true,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.415Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getExemption, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.415Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getExemption, Commit -> false,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.415Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> listExemptions, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.416Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> listExemptions, Commit -> false,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.416Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getCourseSessions, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.418Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getCourseSessions, Commit -> false,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.419Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> computeEligibility, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.419Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> computeEligibility, Commit -> false,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.420Z [32minfo[39m [c-api:./lib/annotations/info.js]                   @Info args: "Info -> [object Object],","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.421Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> registerIdentity, Return Type -> string,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.422Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> registerIdentity, Commit -> true,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.423Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getIdentityStatus, Return Type -> string,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.423Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getIdentityStatus, Commit -> false,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.424Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> revokeAndReissueKey, Return Type -> string,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.424Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> revokeAndReissueKey, Commit -> true,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.424Z [32minfo[39m [c-api:./lib/annotations/info.js]                   @Info args: "Info -> [object Object],","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.431Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> createSession, Return Type -> string,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.435Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> createSession, Commit -> true,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.435Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getSession, Return Type -> string,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.439Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getSession, Commit -> false,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.440Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> closeSession, Return Type -> string,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.440Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> closeSession, Commit -> true,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.441Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> expireSession, Return Type -> string,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.441Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> expireSession, Commit -> true,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.442Z [32minfo[39m [c-api:./lib/annotations/info.js]                   @Info args: "Info -> [object Object],","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+PASS test/nonce-sweep.test.ts
+  ● Console
+
+    console.log
+      2026-09-27T17:50:51.301Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> markAttendance, Return Type -> string,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.358Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> markAttendance, Commit -> true,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.359Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> correctAttendance, Return Type -> string,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.367Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> correctAttendance, Commit -> true,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.370Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getAttendance, Return Type -> string,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.371Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getAttendance, Commit -> false,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.372Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getSessionAttendance, Return Type -> string,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.384Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getSessionAttendance, Commit -> false,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.387Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getNonceAudit, Return Type -> string,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.388Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getNonceAudit, Commit -> false,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.409Z [32minfo[39m [c-api:./lib/annotations/info.js]                   @Info args: "Info -> [object Object],","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.411Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> enrolStudent, Return Type -> string,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.412Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> enrolStudent, Commit -> true,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.417Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> dropStudent, Return Type -> string,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.417Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> dropStudent, Commit -> true,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.417Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> isEnrolled, Return Type -> string,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.418Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> isEnrolled, Commit -> false,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.418Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getEnrolment, Return Type -> string,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.419Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getEnrolment, Commit -> false,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.419Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getRoster, Return Type -> string,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.420Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getRoster, Commit -> false,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.420Z [32minfo[39m [c-api:./lib/annotations/info.js]                   @Info args: "Info -> [object Object],","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.425Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> applyExemption, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.427Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> applyExemption, Commit -> true,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.428Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> revokeExemption, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.429Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> revokeExemption, Commit -> true,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.429Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getExemption, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.430Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getExemption, Commit -> false,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.431Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> listExemptions, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.431Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> listExemptions, Commit -> false,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.432Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getCourseSessions, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.435Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getCourseSessions, Commit -> false,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.436Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> computeEligibility, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.436Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> computeEligibility, Commit -> false,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.436Z [32minfo[39m [c-api:./lib/annotations/info.js]                   @Info args: "Info -> [object Object],","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.441Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> registerIdentity, Return Type -> string,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.443Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> registerIdentity, Commit -> true,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.444Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getIdentityStatus, Return Type -> string,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.444Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getIdentityStatus, Commit -> false,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.445Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> revokeAndReissueKey, Return Type -> string,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.445Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> revokeAndReissueKey, Commit -> true,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.445Z [32minfo[39m [c-api:./lib/annotations/info.js]                   @Info args: "Info -> [object Object],","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.448Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> createSession, Return Type -> string,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.461Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> createSession, Commit -> true,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.461Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getSession, Return Type -> string,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.462Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getSession, Commit -> false,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.462Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> closeSession, Return Type -> string,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.462Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> closeSession, Commit -> true,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.463Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> expireSession, Return Type -> string,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.463Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> expireSession, Commit -> true,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.463Z [32minfo[39m [c-api:./lib/annotations/info.js]                   @Info args: "Info -> [object Object],","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+PASS test/session-manager.test.ts
+  ● Console
+
+    console.log
+      2026-09-27T17:50:51.437Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> createSession, Return Type -> string,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.467Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> createSession, Commit -> true,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.475Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getSession, Return Type -> string,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.476Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getSession, Commit -> false,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.477Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> closeSession, Return Type -> string,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.478Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> closeSession, Commit -> true,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.479Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> expireSession, Return Type -> string,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.480Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> expireSession, Commit -> true,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.492Z [32minfo[39m [c-api:./lib/annotations/info.js]                   @Info args: "Info -> [object Object],","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.496Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> registerIdentity, Return Type -> string,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.498Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> registerIdentity, Commit -> true,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.502Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getIdentityStatus, Return Type -> string,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.502Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getIdentityStatus, Commit -> false,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.503Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> revokeAndReissueKey, Return Type -> string,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.504Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> revokeAndReissueKey, Commit -> true,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.507Z [32minfo[39m [c-api:./lib/annotations/info.js]                   @Info args: "Info -> [object Object],","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+PASS test/exemptions.test.ts
+  ● Console
+
+    console.log
+      2026-09-27T17:50:51.317Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> markAttendance, Return Type -> string,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.383Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> markAttendance, Commit -> true,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.384Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> correctAttendance, Return Type -> string,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.385Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> correctAttendance, Commit -> true,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.401Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getAttendance, Return Type -> string,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.402Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getAttendance, Commit -> false,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.402Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getSessionAttendance, Return Type -> string,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.403Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getSessionAttendance, Commit -> false,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.403Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getNonceAudit, Return Type -> string,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.404Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getNonceAudit, Commit -> false,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.411Z [32minfo[39m [c-api:./lib/annotations/info.js]                   @Info args: "Info -> [object Object],","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.417Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> enrolStudent, Return Type -> string,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.418Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> enrolStudent, Commit -> true,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.420Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> dropStudent, Return Type -> string,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.421Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> dropStudent, Commit -> true,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.422Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> isEnrolled, Return Type -> string,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.422Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> isEnrolled, Commit -> false,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.423Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getEnrolment, Return Type -> string,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.424Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getEnrolment, Commit -> false,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.424Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getRoster, Return Type -> string,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.424Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getRoster, Commit -> false,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.425Z [32minfo[39m [c-api:./lib/annotations/info.js]                   @Info args: "Info -> [object Object],","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.427Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> applyExemption, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.428Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> applyExemption, Commit -> true,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.429Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> revokeExemption, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.429Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> revokeExemption, Commit -> true,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.429Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getExemption, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.430Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getExemption, Commit -> false,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.430Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> listExemptions, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.431Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> listExemptions, Commit -> false,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.431Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getCourseSessions, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.433Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getCourseSessions, Commit -> false,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.436Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> computeEligibility, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.436Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> computeEligibility, Commit -> false,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.437Z [32minfo[39m [c-api:./lib/annotations/info.js]                   @Info args: "Info -> [object Object],","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.439Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> registerIdentity, Return Type -> string,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.440Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> registerIdentity, Commit -> true,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.440Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getIdentityStatus, Return Type -> string,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.441Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getIdentityStatus, Commit -> false,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.446Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> revokeAndReissueKey, Return Type -> string,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.446Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> revokeAndReissueKey, Commit -> true,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.451Z [32minfo[39m [c-api:./lib/annotations/info.js]                   @Info args: "Info -> [object Object],","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.454Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> createSession, Return Type -> string,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.455Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> createSession, Commit -> true,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.456Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getSession, Return Type -> string,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.456Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getSession, Commit -> false,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.457Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> closeSession, Return Type -> string,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.457Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> closeSession, Commit -> true,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.457Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> expireSession, Return Type -> string,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.459Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> expireSession, Commit -> true,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.460Z [32minfo[39m [c-api:./lib/annotations/info.js]                   @Info args: "Info -> [object Object],","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+PASS test/helpers/mock-context.test.ts
+PASS test/attendance-corrections.test.ts
+  ● Console
+
+    console.log
+      2026-09-27T17:50:51.509Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> markAttendance, Return Type -> string,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.550Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> markAttendance, Commit -> true,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.558Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> correctAttendance, Return Type -> string,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.560Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> correctAttendance, Commit -> true,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.563Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getAttendance, Return Type -> string,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.563Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getAttendance, Commit -> false,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.564Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getSessionAttendance, Return Type -> string,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.565Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getSessionAttendance, Commit -> false,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.566Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getNonceAudit, Return Type -> string,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.567Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getNonceAudit, Commit -> false,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.568Z [32minfo[39m [c-api:./lib/annotations/info.js]                   @Info args: "Info -> [object Object],","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.570Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> enrolStudent, Return Type -> string,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.572Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> enrolStudent, Commit -> true,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.572Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> dropStudent, Return Type -> string,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.573Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> dropStudent, Commit -> true,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.574Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> isEnrolled, Return Type -> string,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.575Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> isEnrolled, Commit -> false,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.576Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getEnrolment, Return Type -> string,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.577Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getEnrolment, Commit -> false,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.577Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getRoster, Return Type -> string,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.578Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getRoster, Commit -> false,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.579Z [32minfo[39m [c-api:./lib/annotations/info.js]                   @Info args: "Info -> [object Object],","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.586Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> applyExemption, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.588Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> applyExemption, Commit -> true,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.589Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> revokeExemption, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.590Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> revokeExemption, Commit -> true,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.604Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getExemption, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.605Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getExemption, Commit -> false,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.608Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> listExemptions, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.609Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> listExemptions, Commit -> false,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.609Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getCourseSessions, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.610Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getCourseSessions, Commit -> false,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.610Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> computeEligibility, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.611Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> computeEligibility, Commit -> false,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.611Z [32minfo[39m [c-api:./lib/annotations/info.js]                   @Info args: "Info -> [object Object],","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.613Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> registerIdentity, Return Type -> string,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.614Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> registerIdentity, Commit -> true,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.614Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getIdentityStatus, Return Type -> string,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.614Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getIdentityStatus, Commit -> false,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.615Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> revokeAndReissueKey, Return Type -> string,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.615Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> revokeAndReissueKey, Commit -> true,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.616Z [32minfo[39m [c-api:./lib/annotations/info.js]                   @Info args: "Info -> [object Object],","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.622Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> createSession, Return Type -> string,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.623Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> createSession, Commit -> true,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.624Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getSession, Return Type -> string,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.624Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getSession, Commit -> false,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.625Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> closeSession, Return Type -> string,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.625Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> closeSession, Commit -> true,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.626Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> expireSession, Return Type -> string,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.626Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> expireSession, Commit -> true,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.626Z [32minfo[39m [c-api:./lib/annotations/info.js]                   @Info args: "Info -> [object Object],","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+PASS test/identity-registry.test.ts
+  ● Console
+
+    console.log
+      2026-09-27T17:50:51.662Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> registerIdentity, Return Type -> string,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.663Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> registerIdentity, Commit -> true,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.665Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getIdentityStatus, Return Type -> string,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.665Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getIdentityStatus, Commit -> false,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.665Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> revokeAndReissueKey, Return Type -> string,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.666Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> revokeAndReissueKey, Commit -> true,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.677Z [32minfo[39m [c-api:./lib/annotations/info.js]                   @Info args: "Info -> [object Object],","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+PASS test/attendance-marking.test.ts
+  ● Console
+
+    console.log
+      2026-09-27T17:50:51.444Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> registerIdentity, Return Type -> string,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.463Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> registerIdentity, Commit -> true,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.469Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getIdentityStatus, Return Type -> string,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.469Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getIdentityStatus, Commit -> false,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.480Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> revokeAndReissueKey, Return Type -> string,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.481Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> revokeAndReissueKey, Commit -> true,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.482Z [32minfo[39m [c-api:./lib/annotations/info.js]                   @Info args: "Info -> [object Object],","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.537Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> markAttendance, Return Type -> string,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.554Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> markAttendance, Commit -> true,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.555Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> correctAttendance, Return Type -> string,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.555Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> correctAttendance, Commit -> true,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.556Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getAttendance, Return Type -> string,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.556Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getAttendance, Commit -> false,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.557Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getSessionAttendance, Return Type -> string,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.568Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getSessionAttendance, Commit -> false,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.569Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getNonceAudit, Return Type -> string,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.569Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getNonceAudit, Commit -> false,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.570Z [32minfo[39m [c-api:./lib/annotations/info.js]                   @Info args: "Info -> [object Object],","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.572Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> enrolStudent, Return Type -> string,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.581Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> enrolStudent, Commit -> true,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.582Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> dropStudent, Return Type -> string,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.582Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> dropStudent, Commit -> true,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.583Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> isEnrolled, Return Type -> string,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.583Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> isEnrolled, Commit -> false,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.583Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getEnrolment, Return Type -> string,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.584Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getEnrolment, Commit -> false,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.586Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getRoster, Return Type -> string,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.586Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getRoster, Commit -> false,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.587Z [32minfo[39m [c-api:./lib/annotations/info.js]                   @Info args: "Info -> [object Object],","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.588Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> applyExemption, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.589Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> applyExemption, Commit -> true,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.590Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> revokeExemption, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.590Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> revokeExemption, Commit -> true,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.591Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getExemption, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.591Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getExemption, Commit -> false,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.591Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> listExemptions, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.592Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> listExemptions, Commit -> false,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.592Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getCourseSessions, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.593Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getCourseSessions, Commit -> false,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.597Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> computeEligibility, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.597Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> computeEligibility, Commit -> false,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.598Z [32minfo[39m [c-api:./lib/annotations/info.js]                   @Info args: "Info -> [object Object],","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.601Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> createSession, Return Type -> string,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.606Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> createSession, Commit -> true,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.607Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getSession, Return Type -> string,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.607Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getSession, Commit -> false,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.607Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> closeSession, Return Type -> string,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.608Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> closeSession, Commit -> true,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.608Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> expireSession, Return Type -> string,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.613Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> expireSession, Commit -> true,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.614Z [32minfo[39m [c-api:./lib/annotations/info.js]                   @Info args: "Info -> [object Object],","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+PASS test/course-roster.test.ts
+  ● Console
+
+    console.log
+      2026-09-27T17:50:51.600Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> registerIdentity, Return Type -> string,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.611Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> registerIdentity, Commit -> true,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.618Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getIdentityStatus, Return Type -> string,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.618Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getIdentityStatus, Commit -> false,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.625Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> revokeAndReissueKey, Return Type -> string,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.626Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> revokeAndReissueKey, Commit -> true,","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.627Z [32minfo[39m [c-api:./lib/annotations/info.js]                   @Info args: "Info -> [object Object],","Target ->","IdentityRegistry"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.638Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> markAttendance, Return Type -> string,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.643Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> markAttendance, Commit -> true,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.645Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> correctAttendance, Return Type -> string,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.646Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> correctAttendance, Commit -> true,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.648Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getAttendance, Return Type -> string,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.649Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getAttendance, Commit -> false,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.651Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getSessionAttendance, Return Type -> string,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.662Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getSessionAttendance, Commit -> false,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.663Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getNonceAudit, Return Type -> string,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.663Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getNonceAudit, Commit -> false,","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.663Z [32minfo[39m [c-api:./lib/annotations/info.js]                   @Info args: "Info -> [object Object],","Target ->","AttendanceRecorder"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.666Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> enrolStudent, Return Type -> string,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.667Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> enrolStudent, Commit -> true,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.667Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> dropStudent, Return Type -> string,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.668Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> dropStudent, Commit -> true,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.668Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> isEnrolled, Return Type -> string,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.669Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> isEnrolled, Commit -> false,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.669Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getEnrolment, Return Type -> string,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.670Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getEnrolment, Commit -> false,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.670Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getRoster, Return Type -> string,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.674Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getRoster, Commit -> false,","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.674Z [32minfo[39m [c-api:./lib/annotations/info.js]                   @Info args: "Info -> [object Object],","Target ->","CourseRoster"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.681Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> applyExemption, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.684Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> applyExemption, Commit -> true,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.685Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> revokeExemption, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.685Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> revokeExemption, Commit -> true,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.688Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getExemption, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.688Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getExemption, Commit -> false,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.689Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> listExemptions, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.689Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> listExemptions, Commit -> false,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.689Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getCourseSessions, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.690Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getCourseSessions, Commit -> false,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.690Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> computeEligibility, Return Type -> string,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.690Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> computeEligibility, Commit -> false,","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.691Z [32minfo[39m [c-api:./lib/annotations/info.js]                   @Info args: "Info -> [object Object],","Target ->","PolicyEngine"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.693Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> createSession, Return Type -> string,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.694Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> createSession, Commit -> true,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.695Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> getSession, Return Type -> string,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.695Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> getSession, Commit -> false,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.696Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> closeSession, Return Type -> string,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.696Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> closeSession, Commit -> true,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.698Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Returns args: ", Property Key -> expireSession, Return Type -> string,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.699Z [32minfo[39m [c-api:./lib/annotations/transaction.js]            @Transaction args: "Property Key -> expireSession, Commit -> true,","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+    console.log
+      2026-09-27T17:50:51.699Z [32minfo[39m [c-api:./lib/annotations/info.js]                   @Info args: "Info -> [object Object],","Target ->","SessionManager"
+
+      at Console.log (../../node_modules/winston/lib/winston/transports/console.js:87:23)
+
+
+Test Suites: 9 passed, 9 total
+Tests:       138 passed, 138 total
+Snapshots:   0 total
+Time:        2.288 s, estimated 4 s
+Ran all test suites.
+
+> @haazir/backend@0.1.0 test
+> jest
+
+PASS test/errors.test.ts
+  translateFabricError
+    ✓ extracts the chaincode code from the per-peer details (2 ms)
+    ✓ does not mistake the gRPC status for the chaincode code
+    ✓ reports an endorsement policy failure distinctly
+    ✓ handles an error with no details at all
+    ✓ handles a non-Error value (1 ms)
+    ✓ falls back to a bare CODE: message pair when there is no chaincode prefix
+    ✓ prefers the first peer that reported a chaincode error
+    ✓ always preserves the raw text for diagnosis
+
+Test Suites: 1 passed, 1 total
+Tests:       8 passed, 8 total
+Snapshots:   0 total
+Time:        0.767 s, estimated 2 s
+Ran all test suites.

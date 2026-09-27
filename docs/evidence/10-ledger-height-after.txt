@@ -1,0 +1,4 @@
+$ peer channel getinfo -c attendance-channel
+
+[34m2026-09-27 17:51:44.448 UTC 0001 INFO[0m [channelCmd] [34;1mInitCmdFactory[0m -> Endorser and orderer connections initialized
+Blockchain info: {"height":60,"currentBlockHash":"nW+oGfNfts/jrMBXNDMvCKROOHulI3iv91ptzBf5BDo=","previousBlockHash":"FUW0lRURjwVofRpH/KFBEgHbL+P6O6YKTDf5/fLyr0M="}

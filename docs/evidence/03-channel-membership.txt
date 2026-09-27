@@ -1,0 +1,7 @@
+$ bash /home/swayam/haazir/network/scripts/check-channel.sh
+
+  OK    registrar  (RegistrarMSP ) joined attendance-channel
+  OK    examcell   (ExamCellMSP  ) joined attendance-channel
+  OK    audit      (AuditMSP     ) joined attendance-channel
+
+All three organizations have joined attendance-channel.

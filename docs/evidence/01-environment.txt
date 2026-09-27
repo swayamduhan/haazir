@@ -1,0 +1,13 @@
+$ bash /home/swayam/haazir/scripts/verify-env.sh
+
+Environment check:
+  OK    node                   v20.20.2
+  OK    peer                    Version: v2.5.9
+  OK    docker                 Docker version 29.6.1, build 8900f1d
+  OK    configtxgen            /home/swayam/fabric-samples/bin/configtxgen
+  OK    jq                     jq-1.7
+  OK    filesystem             /home/swayam/haazir
+  OK    docker daemon          reachable
+  OK    fabric images          hyperledger/fabric-peer:2.5 present
+
+Environment ready.
