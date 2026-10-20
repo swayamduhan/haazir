@@ -31,6 +31,7 @@ Or step by step:
 npm run demo --workspace @haazir/backend     # full walkthrough
 npm test                                     # unit tests, no network needed
 npm run lint:determinism                     # bans clock, randomness and trigonometry
+npm run serve --workspace @haazir/backend    # REST API on :3000, see docs/api.md
 ./network/scripts/network-down.sh
 ```
 
