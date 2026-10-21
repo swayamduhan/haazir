@@ -1,5 +1,5 @@
 import { generateKeyPairSync, KeyObject, sign } from 'crypto';
-import { AttendanceClaim, attendancePayload } from './signing';
+import { AttendanceClaim, attendancePayload } from './payload';
 
 /**
  * The signing half of the device protocol: key generation and submission

@@ -5,5 +5,6 @@ export * from './evidence';
 export * from './geo';
 export * from './hashing';
 export * from './nonce';
+export * from './payload';
 export * from './signing';
 export * from './types';
