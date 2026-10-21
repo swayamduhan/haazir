@@ -1,0 +1,270 @@
+{
+  "ranAt": "2026-10-21T05:36:18.250Z",
+  "environment": {
+    "fabric": "2.5.9",
+    "orgs": 3,
+    "endorsementPolicy": "AND(Registrar, ExamCell)",
+    "ordering": "Raft, 1 node",
+    "batchTimeout": "2s",
+    "maxMessageCount": 10,
+    "host": "single laptop, WSL2, Docker Desktop"
+  },
+  "singleStudentMs": {
+    "median": 2054,
+    "max": 2062
+  },
+  "runs": [
+    {
+      "students": 30,
+      "accepted": 30,
+      "failures": {},
+      "wallMs": 237,
+      "throughputTps": 126.68,
+      "latencyMs": {
+        "p50": 187,
+        "p95": 230,
+        "max": 230,
+        "mean": 190
+      },
+      "closeSessionMs": 2056,
+      "eligibilityQueryMs": 12,
+      "ledgerBytesPerMark": 7284,
+      "worldState": {
+        "attRec": {
+          "docs": 30,
+          "bytes": 25440
+        },
+        "attendance": {
+          "docs": 30,
+          "bytes": 6300
+        },
+        "courseSession": {
+          "docs": 1,
+          "bytes": 87
+        },
+        "nonceAudit": {
+          "docs": 1,
+          "bytes": 8981
+        },
+        "session": {
+          "docs": 1,
+          "bytes": 751
+        }
+      }
+    },
+    {
+      "students": 30,
+      "accepted": 30,
+      "failures": {},
+      "wallMs": 234,
+      "throughputTps": 128.44,
+      "latencyMs": {
+        "p50": 187,
+        "p95": 232,
+        "max": 233,
+        "mean": 187
+      },
+      "closeSessionMs": 2070,
+      "eligibilityQueryMs": 13,
+      "ledgerBytesPerMark": 7284,
+      "worldState": {
+        "attRec": {
+          "docs": 30,
+          "bytes": 25440
+        },
+        "attendance": {
+          "docs": 30,
+          "bytes": 6300
+        },
+        "courseSession": {
+          "docs": 1,
+          "bytes": 87
+        },
+        "nonceAudit": {
+          "docs": 1,
+          "bytes": 8981
+        },
+        "session": {
+          "docs": 1,
+          "bytes": 751
+        }
+      }
+    },
+    {
+      "students": 60,
+      "accepted": 60,
+      "failures": {},
+      "wallMs": 458,
+      "throughputTps": 130.89,
+      "latencyMs": {
+        "p50": 333,
+        "p95": 453,
+        "max": 457,
+        "mean": 344
+      },
+      "closeSessionMs": 2060,
+      "eligibilityQueryMs": 11,
+      "ledgerBytesPerMark": 7284,
+      "worldState": {
+        "attRec": {
+          "docs": 60,
+          "bytes": 50880
+        },
+        "attendance": {
+          "docs": 60,
+          "bytes": 12600
+        },
+        "courseSession": {
+          "docs": 1,
+          "bytes": 87
+        },
+        "nonceAudit": {
+          "docs": 1,
+          "bytes": 17831
+        },
+        "session": {
+          "docs": 1,
+          "bytes": 751
+        }
+      }
+    },
+    {
+      "students": 60,
+      "accepted": 60,
+      "failures": {},
+      "wallMs": 517,
+      "throughputTps": 116.04,
+      "latencyMs": {
+        "p50": 375,
+        "p95": 510,
+        "max": 514,
+        "mean": 384
+      },
+      "closeSessionMs": 2084,
+      "eligibilityQueryMs": 15,
+      "ledgerBytesPerMark": 7284,
+      "worldState": {
+        "attRec": {
+          "docs": 60,
+          "bytes": 50880
+        },
+        "attendance": {
+          "docs": 60,
+          "bytes": 12600
+        },
+        "courseSession": {
+          "docs": 1,
+          "bytes": 87
+        },
+        "nonceAudit": {
+          "docs": 1,
+          "bytes": 17831
+        },
+        "session": {
+          "docs": 1,
+          "bytes": 751
+        }
+      }
+    },
+    {
+      "students": 120,
+      "accepted": 120,
+      "failures": {},
+      "wallMs": 864,
+      "throughputTps": 138.89,
+      "latencyMs": {
+        "p50": 601,
+        "p95": 823,
+        "max": 856,
+        "mean": 601
+      },
+      "closeSessionMs": 2113,
+      "eligibilityQueryMs": 13,
+      "ledgerBytesPerMark": 7287,
+      "worldState": {
+        "attRec": {
+          "docs": 120,
+          "bytes": 101880
+        },
+        "attendance": {
+          "docs": 120,
+          "bytes": 25200
+        },
+        "courseSession": {
+          "docs": 1,
+          "bytes": 88
+        },
+        "nonceAudit": {
+          "docs": 1,
+          "bytes": 35533
+        },
+        "session": {
+          "docs": 1,
+          "bytes": 754
+        }
+      }
+    },
+    {
+      "students": 120,
+      "accepted": 120,
+      "failures": {},
+      "wallMs": 880,
+      "throughputTps": 136.35,
+      "latencyMs": {
+        "p50": 617,
+        "p95": 834,
+        "max": 870,
+        "mean": 619
+      },
+      "closeSessionMs": 2088,
+      "eligibilityQueryMs": 13,
+      "ledgerBytesPerMark": 7286,
+      "worldState": {
+        "attRec": {
+          "docs": 120,
+          "bytes": 101880
+        },
+        "attendance": {
+          "docs": 120,
+          "bytes": 25200
+        },
+        "courseSession": {
+          "docs": 1,
+          "bytes": 88
+        },
+        "nonceAudit": {
+          "docs": 1,
+          "bytes": 35533
+        },
+        "session": {
+          "docs": 1,
+          "bytes": 754
+        }
+      }
+    }
+  ],
+  "trickle": [
+    {
+      "students": 60,
+      "arrivalWindowSec": 20,
+      "accepted": 60,
+      "wholeClassMs": 20240,
+      "latencyMs": {
+        "p50": 1015,
+        "p95": 2069,
+        "max": 2075
+      }
+    },
+    {
+      "students": 120,
+      "arrivalWindowSec": 30,
+      "accepted": 120,
+      "wholeClassMs": 29856,
+      "latencyMs": {
+        "p50": 1016,
+        "p95": 2061,
+        "max": 2100
+      }
+    }
+  ]
+}

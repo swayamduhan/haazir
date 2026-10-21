@@ -14,6 +14,11 @@ close are the ones worth reading.
 
 ## 1. Attack / Countermeasure Table
 
+Every row that software can exercise has been run as a live attack against
+the three-organisation network by `npm run attacks --workspace @haazir/backend`;
+23 of 23 executed checks behaved as claimed. Results: `docs/evaluation.md` §1
+and `docs/evidence/eval/attacks.json`.
+
 | # | Attack | Defeated by | Residual risk | Status |
 |---|---|---|---|---|
 | 1 | **Static QR screenshot, shared to an absent student** | Rotating nonce, 10-second window (§5.2). `markAttendance` rejects a window more than one rotation from the ledger clock; the nonce itself is adjudicated at close | A forged nonce is *accepted* at marking and exposed at close, not before — the price of keeping the seed off chain (ADR-016) | **Implemented and tested** |

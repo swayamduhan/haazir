@@ -1,0 +1,196 @@
+{
+  "ranAt": "2026-10-21T05:31:24.050Z",
+  "passed": 23,
+  "executed": 23,
+  "rows": [
+    {
+      "row": "1",
+      "attack": "Replay a genuine code from an earlier window (forwarded screenshot)",
+      "expected": "WINDOW_MISMATCH",
+      "observed": "WINDOW_MISMATCH",
+      "pass": true
+    },
+    {
+      "row": "5",
+      "attack": "Legitimate mark (control)",
+      "expected": "ACCEPTED",
+      "observed": "ACCEPTED",
+      "pass": true
+    },
+    {
+      "row": "5",
+      "attack": "Submit a second mark for the same student and session",
+      "expected": "DUPLICATE_ATTENDANCE",
+      "observed": "DUPLICATE_ATTENDANCE",
+      "pass": true
+    },
+    {
+      "row": "5",
+      "attack": "Replay a valid signed claim into a different session",
+      "expected": "INVALID_SIGNATURE",
+      "observed": "INVALID_SIGNATURE",
+      "pass": true
+    },
+    {
+      "row": "1",
+      "attack": "Forge a code for the current window (accepted at marking by design)",
+      "expected": "ACCEPTED",
+      "observed": "ACCEPTED",
+      "pass": true
+    },
+    {
+      "row": "7",
+      "attack": "Submit from 400 m outside the geofence",
+      "expected": "OUTSIDE_GEOFENCE",
+      "observed": "OUTSIDE_GEOFENCE",
+      "pass": true
+    },
+    {
+      "row": "7",
+      "attack": "Spoofed GPS reporting a point inside the fence (residual risk)",
+      "expected": "ACCEPTED",
+      "observed": "ACCEPTED",
+      "pass": true
+    },
+    {
+      "row": "11",
+      "attack": "Sign with a key that has since been rotated out",
+      "expected": "INVALID_SIGNATURE",
+      "observed": "INVALID_SIGNATURE",
+      "pass": true
+    },
+    {
+      "row": "11",
+      "attack": "Sign with another student’s device key",
+      "expected": "INVALID_SIGNATURE",
+      "observed": "INVALID_SIGNATURE",
+      "pass": true
+    },
+    {
+      "row": "12",
+      "attack": "Enrol a second identity for the same person (same identity hash)",
+      "expected": "IDENTITY_HASH_EXISTS",
+      "observed": "IDENTITY_HASH_EXISTS",
+      "pass": true
+    },
+    {
+      "row": "13",
+      "attack": "Mark attendance in a course the student is not enrolled in",
+      "expected": "NOT_ENROLLED",
+      "observed": "NOT_ENROLLED",
+      "pass": true
+    },
+    {
+      "row": "4",
+      "attack": "Registrar alone rewrites a record (one endorsement only)",
+      "expected": "ENDORSEMENT_POLICY_FAILURE",
+      "observed": "ENDORSEMENT_POLICY_FAILURE",
+      "pass": true
+    },
+    {
+      "row": "4",
+      "attack": "The record after the attempt is unchanged",
+      "expected": "present",
+      "observed": "present",
+      "pass": true
+    },
+    {
+      "row": "4",
+      "attack": "The Audit organisation tries to write",
+      "expected": "UNAUTHORISED_ORG",
+      "observed": "UNAUTHORISED_ORG",
+      "pass": true
+    },
+    {
+      "row": "2",
+      "attack": "Close the session revealing a different seed than was committed",
+      "expected": "SEED_COMMITMENT_MISMATCH",
+      "observed": "SEED_COMMITMENT_MISMATCH",
+      "pass": true
+    },
+    {
+      "row": "2",
+      "attack": "Close with the committed seed (control)",
+      "expected": "ACCEPTED",
+      "observed": "ACCEPTED",
+      "pass": true
+    },
+    {
+      "row": "1",
+      "attack": "The forged code is exposed at close by both organisations",
+      "expected": "invalid",
+      "observed": "invalid",
+      "pass": true
+    },
+    {
+      "row": "1",
+      "attack": "The session reports what it can prove",
+      "expected": "disputed",
+      "observed": "disputed",
+      "pass": true
+    },
+    {
+      "row": "14",
+      "attack": "The forged mark earns no eligibility credit",
+      "expected": "rejectedForNonce=1, present=0",
+      "observed": "rejectedForNonce=1, present=0",
+      "pass": true
+    },
+    {
+      "row": "3",
+      "attack": "Reveal the seed after the grace period has elapsed",
+      "expected": "GRACE_PERIOD_ELAPSED",
+      "observed": "GRACE_PERIOD_ELAPSED",
+      "pass": true
+    },
+    {
+      "row": "3",
+      "attack": "Anyone records the expiry as an attributable sanction",
+      "expected": "ACCEPTED",
+      "observed": "ACCEPTED",
+      "pass": true
+    },
+    {
+      "row": "3",
+      "attack": "An unrevealed session never reads as healthy",
+      "expected": "unverified",
+      "observed": "unverified",
+      "pass": true
+    },
+    {
+      "row": "API",
+      "attack": "Send the session seed to the server at open",
+      "expected": "SEED_MUST_NOT_BE_SENT",
+      "observed": "SEED_MUST_NOT_BE_SENT",
+      "pass": true
+    },
+    {
+      "row": "6",
+      "attack": "Lend the phone to a friend (defeated on the device by liveness, not on chain)",
+      "expected": "open",
+      "observed": "not executable in software",
+      "pass": null
+    },
+    {
+      "row": "8",
+      "attack": "Relay the classroom’s proximity signal to a remote accomplice",
+      "expected": "open",
+      "observed": "not executable in software",
+      "pass": null
+    },
+    {
+      "row": "9",
+      "attack": "A present friend performs the liveness check for an absent student",
+      "expected": "open",
+      "observed": "not executable in software",
+      "pass": null
+    },
+    {
+      "row": "10",
+      "attack": "Inject a deepfake through a virtual camera driver",
+      "expected": "open",
+      "observed": "not executable in software",
+      "pass": null
+    }
+  ]
+}

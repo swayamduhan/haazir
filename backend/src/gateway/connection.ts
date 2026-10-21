@@ -44,7 +44,17 @@ async function grpcClientFor(org: OrgName): Promise<grpc.Client> {
  * alone is committed as invalid — silently, unless the caller waits for the
  * commit status, which submitTransaction does.
  */
-export async function connect(org: OrgName): Promise<GatewayHandle> {
+export interface ConnectOptions {
+  /**
+   * Which organisations to ask for endorsements. Defaults to both endorsers.
+   * Narrowing it exists for one purpose: the attack suite proves that a write
+   * endorsed by a single organisation is invalidated at commit. Production
+   * code never sets it.
+   */
+  endorsingOrgs?: OrgName[];
+}
+
+export async function connect(org: OrgName, options: ConnectOptions = {}): Promise<GatewayHandle> {
   const cfg = ORGS[org];
   const userMsp = path.join(cfg.cryptoPath, 'users', `Admin@${cfg.domain}`, 'msp');
 
@@ -58,7 +68,7 @@ export async function connect(org: OrgName): Promise<GatewayHandle> {
     await fs.readFile(await firstFileIn(path.join(userMsp, 'keystore'))),
   );
 
-  const endorsingOrgs = ENDORSING_ORGS.map((o) => ORGS[o].mspId);
+  const endorsingOrgs = (options.endorsingOrgs ?? ENDORSING_ORGS).map((o) => ORGS[o].mspId);
 
   const gateway = gatewayConnect({
     client,

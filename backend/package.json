@@ -8,7 +8,9 @@
     "demo": "node dist/cli/demo.js",
     "test": "jest",
     "serve": "node dist/server.js",
-    "smoke": "node dist/cli/api-smoke.js"
+    "smoke": "node dist/cli/api-smoke.js",
+    "attacks": "node dist/eval/attacks.js",
+    "bench": "node dist/eval/bench.js"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.10.9",
