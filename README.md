@@ -2,14 +2,15 @@
 
 A permissioned, multi-organization Hyperledger Fabric ledger for classroom
 attendance. Every record is a signed transaction proving four things at once:
-**possession** (device-bound key), **proximity** (BLE/geofence), **freshness**
-(rotating nonce), and **liveness** (on-device face match). No single
+**possession** (device-bound key), **proximity** (geofence), **freshness**
+(rotating nonce), and **liveness** (an on-device check). No single
 institutional party can unilaterally write or alter the record. PII and
 biometrics never touch the chain — only hashes and pseudonymous ids do.
 
-**Current milestone: Review II** — identity enrolment, session lifecycle with
-commit-reveal nonce seeds, and a 3-organization network enforcing
-`AND(Registrar, ExamCell)`.
+**Status:** the complete path runs end to end — five smart contracts on a
+three-organisation network enforcing `AND(Registrar, ExamCell)`, a REST API,
+web clients for faculty, students, the Registrar and the public, off-chain
+stores for personal data and evidence, and an evaluation suite. 265 tests.
 
 ---
 
@@ -35,6 +36,22 @@ npm run serve --workspace @haazir/backend    # REST API on :3000, see docs/api.m
 ./network/scripts/network-down.sh
 ```
 
+Web clients and off-chain stores:
+
+```bash
+./network/scripts/offchain-up.sh             # PostgreSQL (PII) + private IPFS (evidence)
+./scripts/serve-web.sh                       # API + web on https://localhost:5173, see docs/web.md
+```
+
+Evaluation, against the live network:
+
+```bash
+npm run attacks  --workspace @haazir/backend   # threat model as live attacks: 23/23
+npm run bench    --workspace @haazir/backend   # load and storage, 30/60/120 students
+npm run offchain --workspace @haazir/backend   # privacy and erasure: 15/15
+npm run smoke    --workspace @haazir/backend   # REST API end to end: 14/14 (server running)
+```
+
 ## Prerequisites
 
 Run `./scripts/verify-env.sh` — it checks everything and says what is missing.
@@ -58,9 +75,12 @@ helper, and `install-fabric.sh` exits 0 even when every pull failed.
 | `packages/shared/` | Canonical encoding, hashing, nonce derivation, shared types. Used by chaincode, backend, and later mobile, so signed payloads cannot diverge. |
 | `packages/chaincode/` | `IdentityRegistry`, `SessionManager`, `CourseRoster`, `AttendanceRecorder` and `PolicyEngine`, one deployable package (ADR-011). |
 | `network/` | Network lifecycle, MSP mapping, CCaaS deployment, endorsement policy proof. |
-| `backend/` | `fabric-gateway` connection module and the CLI demo. |
+| `backend/` | Gateway connection, REST API (`docs/api.md`), off-chain stores, CLI demo, evaluation suite (`src/eval/`). |
+| `web/` | Faculty console, student app, Registrar desk and public verifier (`docs/web.md`). |
+| `docs/evaluation.md` | Attack results, latency, throughput and storage, with the method and its limits. |
+| `docs/sus/` | Usability questionnaire, session plan and scoring workbook. |
 | `docs/threat-model.md` | Attack/countermeasure table, including the gaps this design does **not** close. |
-| `docs/adr/` | Fourteen decision records — context, choice, cost. |
+| `docs/adr/` | Twenty decision records — context, choice, cost. |
 | `docs/determinism-checklist.md` | Why chaincode must not read the clock, and what to use instead. |
 | `docs/superpowers/specs/` | The design spec this milestone implements. |
 | `docs/superpowers/plans/` | The implementation plan. |
@@ -80,9 +100,18 @@ never appears in state. Note that Fabric enforces this at *validation*, not at
 proposal — so `peer chaincode invoke` prints "successful" for a transaction
 that is then discarded. Any honest test reads the ledger back.
 
-## Not yet built
+## Known limits
 
-`AttendanceRecorder`, `PolicyEngine`, the mobile app, on-device liveness,
-BLE/geofence proximity, PostgreSQL, IPFS, and the public verifier. See the
-design spec §13 and `docs/threat-model.md` for what remains open — including
-BLE relay attacks and cooperative proxying, which this design does not defeat.
+Stated plainly, and in more detail in `docs/threat-model.md` and
+`docs/evaluation.md`:
+
+- **Liveness proves a live face, not whose face** — matching against an enrolment
+  template is not built.
+- **The student's key lives in browser storage**, not a hardware keystore.
+- **No end-user authentication on the API** — organisation-level only (ADR-013).
+- **No BLE**: proximity is the geofence, which a spoofed GPS reading inside the
+  fence defeats.
+- **Relay attacks and cooperative proxying** (a present friend doing the liveness
+  check) are not defeated by this design.
+- **Performance is measured on one laptop**, so it is a lower bound on latency.
+- **Usability is unmeasured** until the SUS survey is run with a class.
