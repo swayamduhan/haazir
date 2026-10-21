@@ -6,7 +6,8 @@
   "workspaces": [
     "packages/shared",
     "packages/chaincode",
-    "backend"
+    "backend",
+    "web"
   ],
   "engines": {
     "node": ">=20 <21"

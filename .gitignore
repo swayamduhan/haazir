@@ -23,3 +23,6 @@ demo-salts.json
 npm-debug.log*
 .DS_Store
 Thumbs.db
+web/public/models/
+web/public/mediapipe/
+web/dist/
