@@ -1,5 +1,8 @@
 import express, { NextFunction, Request, RequestHandler, Response } from 'express';
+import { createHash } from 'crypto';
 import { ContractHandle, FabricFailure } from '../gateway';
+import { EvidenceStore } from '../offchain/evidence';
+import { PiiStore } from '../offchain/pii';
 import { httpStatusFor } from './http-status';
 
 /** Anything that can hand out contract handles: the real gateway, or a test fake. */
@@ -10,6 +13,10 @@ export interface Ledger {
 export interface AppOptions {
   /** Value for Access-Control-Allow-Origin. The browser clients need it. */
   corsOrigin?: string;
+  /** Personal data store. Without it the registrar routes answer 503. */
+  pii?: PiiStore;
+  /** Exemption evidence store. Without it the evidence routes answer 503. */
+  evidence?: EvidenceStore;
 }
 
 /**
@@ -67,7 +74,7 @@ export function createApp(ledger: Ledger, options: AppOptions = {}): express.Exp
 
   app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', options.corsOrigin ?? '*');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Filename');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
     if (req.method === 'OPTIONS') { res.sendStatus(204); return; }
     next();
@@ -226,6 +233,67 @@ export function createApp(ledger: Ledger, options: AppOptions = {}): express.Exp
       req.params.sessionID, reason));
   }));
 
+  // ------------------------------------------------------- registrar desk
+  // Personal data goes to PostgreSQL; only a salted hash reaches the ledger.
+  const pii = () => {
+    if (!options.pii) throw new RequestError('OFFCHAIN_UNAVAILABLE', 'the personal-data store is not configured');
+    return options.pii;
+  };
+  const evidence = () => {
+    if (!options.evidence) throw new RequestError('OFFCHAIN_UNAVAILABLE', 'the evidence store is not configured');
+    return options.evidence;
+  };
+
+  app.post('/registrar/students', route(async (req, res) => {
+    const [name, regNo, publicKey] = fields(req.body, ['name', 'regNo', 'publicKey']);
+    const role = req.body.role === 'faculty' ? 'faculty' : 'student';
+    const store = pii();
+    if (await store.hasRegNo(regNo)) {
+      throw new RequestError('REG_NO_EXISTS', `"${regNo}" is already registered`);
+    }
+    const { salt, identityHash } = store.prepare(name, regNo);
+    const identityID = await identities().submit('registerIdentity', identityHash, publicKey, role);
+    await store.save({ identityID, name, regNo, salt, identityHash });
+    res.status(201).json({ identityID, identityHash });
+  }));
+
+  app.get('/registrar/students/:id', route(async (req, res) => {
+    const record = await pii().get(req.params.id);
+    if (!record) throw new RequestError('PII_NOT_FOUND', 'no personal data held for this identity');
+    res.json(record);
+  }));
+
+  app.delete('/registrar/students/:id/pii', route(async (req, res) => {
+    if (!(await pii().erase(req.params.id))) {
+      throw new RequestError('PII_NOT_FOUND', 'no personal data held for this identity');
+    }
+    // The on-chain identity is untouched, and now unlinkable: its hash cannot
+    // be recomputed without the salt that was just deleted.
+    res.json({ identityID: req.params.id, erased: true });
+  }));
+
+  // -------------------------------------------------------------- evidence
+  app.post('/evidence', express.raw({ type: () => true, limit: '10mb' }), route(async (req, res) => {
+    const body = req.body as Buffer;
+    if (!Buffer.isBuffer(body) || body.length === 0) {
+      throw new RequestError('MISSING_FIELD', 'send the document as the request body');
+    }
+    const name = String(req.header('X-Filename') ?? 'evidence').slice(0, 120);
+    const cid = await evidence().add(body, name);
+    res.status(201).json({ cid, bytes: body.length, sha256: createHash('sha256').update(body).digest('hex') });
+  }));
+
+  app.get('/evidence/:cid', route(async (req, res) => {
+    const doc = await evidence().get(req.params.cid);
+    if (!doc) throw new RequestError('EVIDENCE_NOT_FOUND', 'no such document on this node');
+    res.type('application/octet-stream').send(doc);
+  }));
+
+  app.delete('/evidence/:cid', route(async (req, res) => {
+    await evidence().remove(req.params.cid);
+    res.status(204).end();
+  }));
+
   // ---------------------------------------------------------------- errors
   app.use((_req, res) => {
     res.status(404).json({ error: { code: 'NO_SUCH_ROUTE', detail: 'no such endpoint' } });
@@ -234,7 +302,10 @@ export function createApp(ledger: Ledger, options: AppOptions = {}): express.Exp
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
     if (err instanceof RequestError) {
-      res.status(400).json({ error: { code: err.code, detail: err.message } });
+      const status = err.code.endsWith('_NOT_FOUND') ? 404
+        : err.code === 'REG_NO_EXISTS' ? 409
+          : err.code === 'OFFCHAIN_UNAVAILABLE' ? 503 : 400;
+      res.status(status).json({ error: { code: err.code, detail: err.message } });
       return;
     }
     if (err instanceof SyntaxError && 'body' in err) {

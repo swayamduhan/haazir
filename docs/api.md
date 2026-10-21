@@ -40,6 +40,26 @@ Reads use `evaluate`, which asks one peer and writes nothing.
 | POST | `/courses/:courseID/students/:studentID/exemptions` | `PolicyEngine.applyExemption` |
 | POST | `/courses/:courseID/students/:studentID/exemptions/:sessionID/revoke` | `PolicyEngine.revokeExemption` |
 
+## Off-chain stores
+
+Started with `./network/scripts/offchain-up.sh`. The server connects to them
+when reachable and answers `503 OFFCHAIN_UNAVAILABLE` on these routes when not;
+every ledger route works either way.
+
+| Method | Path | What it does |
+|---|---|---|
+| POST | `/registrar/students` | Stores name, registration number and a fresh salt in PostgreSQL; registers only the salted hash on chain |
+| GET | `/registrar/students/:id` | The personal data held for an identity, or its erasure tombstone |
+| DELETE | `/registrar/students/:id/pii` | Erases name, number, salt and hash. The on-chain identity is untouched and becomes unlinkable |
+| POST | `/evidence` | Raw document body (`X-Filename` header) to the private IPFS node; returns its CIDv1 |
+| GET | `/evidence/:cid` | The document, while this node still holds it |
+| DELETE | `/evidence/:cid` | Unpins and garbage-collects. The on-chain CID remains, a reference to nothing |
+
+A duplicate registration number is refused (`409 REG_NO_EXISTS`) *before* the
+chain write, so a failed registration never leaves an orphaned identity on the
+ledger. `npm run offchain --workspace @haazir/backend` exercises the whole
+cycle against the real stores: 15 of 15 checks.
+
 ## Errors
 
 Every error has the same shape, and the chaincode's own code is always kept:

@@ -1,0 +1,82 @@
+{
+  "ranAt": "2026-10-21T05:42:55.943Z",
+  "passed": 15,
+  "total": 15,
+  "checks": [
+    {
+      "check": "register a student through the Registrar desk",
+      "pass": true,
+      "detail": "HTTP 201"
+    },
+    {
+      "check": "the ledger holds no name and no registration number",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "the PII store holds the person",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "with the salt, the on-chain hash links to exactly this person",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "upload the certificate to the private IPFS node",
+      "pass": true,
+      "detail": "bafkreieoud3g4xvnmdmjyry4mrq6qe6shioqn23a7givuaqmevlacdgzea"
+    },
+    {
+      "check": "the exemption is accepted on chain with the CID as its evidence",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "the ledger stores the CID, not the document",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "the document fetched by CID is byte-identical to what was filed",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "erase the student’s personal data",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "the PII store now holds only a tombstone",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "the on-chain identity and its history are untouched",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "the 128-bit salt is gone, so the hash can no longer be recomputed from a name",
+      "pass": true,
+      "detail": "tombstone holds no salt or number"
+    },
+    {
+      "check": "delete the certificate from the IPFS node",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "the CID no longer resolves on this node",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "the on-chain exemption still records which document was filed",
+      "pass": true,
+      "detail": "a permanent reference to nothing"
+    }
+  ]
+}

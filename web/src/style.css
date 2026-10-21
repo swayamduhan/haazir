@@ -156,3 +156,8 @@ table.list tr:last-child td { border-bottom: 0; }
 
 /* A link styled as a button must not keep the link underline. */
 a.btn { display: inline-block; text-decoration: none; text-align: center; }
+
+/* Grid and flex children default to min-width:auto, so an input refuses to
+   shrink below its intrinsic width and spills out of a narrow card. */
+.grid2 > *, .row > .grow, .field { min-width: 0; }
+.field input, .field select { width: 100%; }

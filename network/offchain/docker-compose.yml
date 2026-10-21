@@ -1,0 +1,34 @@
+# Off-chain stores: everything the ledger must never hold.
+#
+#   postgres  personal data (name, registration number, the salt behind each
+#             on-chain identity hash). Erasable, as DPDP 2023 requires.
+#   ipfs      exemption evidence (medical certificates, on-duty letters). The
+#             ledger holds only each document's content identifier.
+#
+# The IPFS node runs --offline: documents are content-addressed but never
+# announced to the public IPFS swarm. A medical certificate published to the
+# public network could not be recalled, which would defeat the point.
+name: haazir-offchain
+services:
+  postgres:
+    image: postgres:17
+    container_name: haazir-postgres
+    environment:
+      POSTGRES_USER: registrar
+      POSTGRES_PASSWORD: registrar-dev-only
+      POSTGRES_DB: haazir_pii
+    ports: ["127.0.0.1:5432:5432"]
+    volumes: [pii:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "registrar", "-d", "haazir_pii"]
+      interval: 2s
+      retries: 30
+  ipfs:
+    image: ipfs/kubo:latest
+    container_name: haazir-ipfs
+    command: ["daemon", "--migrate=true", "--offline"]
+    ports: ["127.0.0.1:5001:5001", "127.0.0.1:8081:8080"]
+    volumes: [evidence:/data/ipfs]
+volumes:
+  pii:
+  evidence:

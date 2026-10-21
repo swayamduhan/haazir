@@ -34,6 +34,7 @@ export default defineConfig({
         faculty: here('faculty.html'),
         student: here('student.html'),
         verify: here('verify.html'),
+        registrar: here('registrar.html'),
       },
     },
   },

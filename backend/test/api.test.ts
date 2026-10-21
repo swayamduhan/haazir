@@ -228,3 +228,117 @@ describe('browser access', () => {
     expect(calls).toHaveLength(0);
   });
 });
+
+// ---------------------------------------------------------------- off-chain
+import { EvidenceStore } from '../src/offchain/evidence';
+import { PiiStore } from '../src/offchain/pii';
+
+function fakeStores() {
+  const rows = new Map<string, any>();
+  const pii: PiiStore = {
+    prepare: () => ({ salt: 'cd'.repeat(16), identityHash: 'ee'.repeat(32) }),
+    hasRegNo: async (r) => [...rows.values()].some((x) => x.regNo === r),
+    save: async (r) => { rows.set(r.identityID, { ...r, createdAt: 'now' }); },
+    get: async (id) => rows.get(id) ?? null,
+    erase: async (id) => {
+      if (!rows.get(id)?.salt) return false;
+      rows.set(id, { identityID: id, erasedAt: 'now' });
+      return true;
+    },
+    close: async () => undefined,
+  };
+  const docs = new Map<string, Buffer>();
+  const evidence: EvidenceStore = {
+    add: async (b) => { const cid = `bafkrei${'a'.repeat(52)}`; docs.set(cid, b); return cid; },
+    get: async (c) => docs.get(c) ?? null,
+    remove: async (c) => { docs.delete(c); },
+  };
+  return { pii, evidence, rows };
+}
+
+function offchainApp(respond: (c: Call) => string | Error = () => 'id-1') {
+  const calls: Call[] = [];
+  const stores = fakeStores();
+  const ledger: Ledger = {
+    contract: (contract) => {
+      const handle = (kind: Call['kind']) => async (fn: string, ...args: string[]) => {
+        const call = { contract, kind, fn, args };
+        calls.push(call);
+        const out = respond(call);
+        if (out instanceof Error) throw out;
+        return out;
+      };
+      return { submit: handle('submit'), evaluate: handle('evaluate') };
+    },
+  };
+  return { calls, ...stores, app: createApp(ledger, { pii: stores.pii, evidence: stores.evidence }) };
+}
+
+describe('the registrar desk', () => {
+  it('anchors only the salted hash on chain and keeps the person in the PII store', async () => {
+    const { app, calls, rows } = offchainApp(() => 'id-1');
+    const res = await request(app).post('/registrar/students')
+      .send({ name: 'Swayam Duhan', regNo: '23BKT0085', publicKey: 'bb'.repeat(32) }).expect(201);
+
+    expect(res.body).toEqual({ identityID: 'id-1', identityHash: 'ee'.repeat(32) });
+    expect(calls[0].args).toEqual(['ee'.repeat(32), 'bb'.repeat(32), 'student']);
+    // The ledger never sees who this is.
+    expect(JSON.stringify(calls)).not.toMatch(/Swayam|23BKT0085/);
+    expect(rows.get('id-1')).toMatchObject({ name: 'Swayam Duhan', regNo: '23BKT0085' });
+  });
+
+  it('refuses a duplicate registration number before writing anything on chain', async () => {
+    const { app, calls } = offchainApp(() => 'id-1');
+    await request(app).post('/registrar/students')
+      .send({ name: 'A', regNo: 'R1', publicKey: 'bb'.repeat(32) }).expect(201);
+    const res = await request(app).post('/registrar/students')
+      .send({ name: 'B', regNo: 'R1', publicKey: 'cc'.repeat(32) }).expect(409);
+
+    expect(res.body.error.code).toBe('REG_NO_EXISTS');
+    expect(calls).toHaveLength(1);
+  });
+
+  it('erases personal data, leaving a tombstone, and says so only once', async () => {
+    const { app } = offchainApp(() => 'id-1');
+    await request(app).post('/registrar/students')
+      .send({ name: 'A', regNo: 'R1', publicKey: 'bb'.repeat(32) });
+    await request(app).delete('/registrar/students/id-1/pii').expect(200, { identityID: 'id-1', erased: true });
+
+    const after = await request(app).get('/registrar/students/id-1').expect(200);
+    expect(after.body).toEqual({ identityID: 'id-1', erasedAt: 'now' });
+    await request(app).delete('/registrar/students/id-1/pii').expect(404);
+  });
+
+  it('answers 503 when no personal-data store is configured', async () => {
+    const { app } = fake();
+    const res = await request(app).post('/registrar/students')
+      .send({ name: 'A', regNo: 'R1', publicKey: 'bb'.repeat(32) }).expect(503);
+    expect(res.body.error.code).toBe('OFFCHAIN_UNAVAILABLE');
+  });
+});
+
+describe('exemption evidence', () => {
+  it('stores a document and returns its content identifier and digest', async () => {
+    const { app } = offchainApp();
+    const res = await request(app).post('/evidence').set('Content-Type', 'application/pdf')
+      .set('X-Filename', 'certificate.pdf').send(Buffer.from('%PDF-1.7 demo')).expect(201);
+
+    expect(res.body.cid).toMatch(/^bafkrei/);
+    expect(res.body.bytes).toBe(13);
+    expect(res.body.sha256).toMatch(/^[0-9a-f]{64}$/);
+    const back = await request(app).get(`/evidence/${res.body.cid}`).expect(200);
+    expect(Buffer.from(back.body).toString()).toBe('%PDF-1.7 demo');
+  });
+
+  it('forgets a deleted document', async () => {
+    const { app } = offchainApp();
+    const { body } = await request(app).post('/evidence').send(Buffer.from('x'));
+    await request(app).delete(`/evidence/${body.cid}`).expect(204);
+    await request(app).get(`/evidence/${body.cid}`).expect(404);
+  });
+
+  it('refuses an empty upload', async () => {
+    const { app } = offchainApp();
+    await request(app).post('/evidence').set('Content-Type', 'application/octet-stream').send(Buffer.alloc(0)).expect(400);
+  });
+});
