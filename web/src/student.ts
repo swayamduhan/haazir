@@ -74,7 +74,7 @@ function renderOnboarding(): void {
 
 // -------------------------------------------------------------------- home
 function renderHome(s: Student): void {
-  const courseInput = h('input', { id: 'course', placeholder: 'BCSE329L', autocapitalize: 'characters' });
+  const courseInput = h('input', { id: 'course', value: 'BCSE329L', autocapitalize: 'characters' });
   const courseStatus = h('div');
   const history = store.get<Mark[]>(HISTORY_KEY) ?? [];
 
